@@ -9,12 +9,11 @@ export default function Home() {
 
   const handleJoinGame = () => {
     if (gameId) {
-      router.push(`/game/${gameId}`);  // Redirige vers la page du jeu
+      router.push(`/game/${gameId}`);
     }
   };
 
   const handleCreateGame = () => {
-    // Crée un nouveau jeu et redirige vers la page de jeu
     const newGameId = Math.random().toString(36).substr(2, 9);
     router.push(`/game/${newGameId}`);
   };
