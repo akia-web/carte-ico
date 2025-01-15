@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from "next/navigation"
 
-export default function Home() {
+export default function Admin() {
   const [gameId, setGameId] = useState('');
   const router = useRouter();
 
@@ -15,15 +15,19 @@ export default function Home() {
 
   const handleCreateGame = () => {
     // Crée un nouveau jeu et redirige vers la page de jeu
-    const newGameId = Math.random().toString(36).substr(2, 9);
+    const newGameId = 'game-' + Math.random().toString(36).substr(2, 9);
     router.push(`/game/${newGameId}`);
   };
 
   return (
     <div>
-      <h1>Bienvenue sur le jeu</h1>
-      <button onClick={handleCreateGame}>Nouvelle partie</button>
+      <h1>Parties</h1>
+      <div className='flex flex-row-reverse'>
+      <button onClick={handleCreateGame}>Créer un nouveau jeu</button>
+      </div>
+      
       <div>
+        <h2>Liste des parties</h2>
       </div>
     </div>
   );
