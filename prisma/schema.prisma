@@ -37,7 +37,7 @@ model card_num_by_player {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model player_number {
   id                 BigInt               @id @default(autoincrement())
-  number             BigInt?
+  number             BigInt
   card_num_by_player card_num_by_player[]
 }
 

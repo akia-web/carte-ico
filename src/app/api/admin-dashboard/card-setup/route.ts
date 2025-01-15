@@ -86,6 +86,10 @@ export async function DELETE(req: NextApiRequest) {
       where: { card_id: BigInt(id) },
     });
 
+    await prisma.card_num_by_player.deleteMany({
+      where: { card_id: BigInt(id) },
+    });
+
     await prisma.card.delete({
       where: { id: BigInt(id) },
     });
