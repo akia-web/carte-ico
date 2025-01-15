@@ -1,82 +1,60 @@
 import { PrismaClient } from "@prisma/client";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest } from "next";
 
 const prisma = new PrismaClient();
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
-  if (!req.url) {
-    return res.status(400).json({ error: "Request URL is required" });
-  }
-  const { searchParams } = new URL(req.url);
-  const playerCount = searchParams.get("playerCount");
+function bigintReplacer(key: string, value: any) {
+  return typeof value === 'bigint' ? value.toString() : value;
+}
 
-  if (playerCount) {
-    try {
-      const setups = await prisma.player_number.findMany({
-        where: {
-          number: parseInt(playerCount, 10),
-        },
-        include: {
-          card_num_by_player: {
-            include: {
-              card: {
-                include: {
-                  card_description: true,
-                },
-              },
-            },
-          },
-        },
-      });
-
-      return res.status(200).json(setups);
-    } catch (error) {
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  } else {
-    try {
-      const cards = await prisma.card.findMany({
-        include: {
-          card_description: true,
-        },
-      });
-      return res.status(200).json(cards);
-    } catch (error) {
-      return res.status(500).json({ error: "Internal server error" });
-    }
+export async function GET() {
+  try {
+    const cards = await prisma.card.findMany({
+      include: {
+        card_description: true,
+      },
+    });
+    return new Response(JSON.stringify(cards, bigintReplacer), { status: 200 });
+  } catch (error) {
+    console.error("Error fetching cards:", error);
+    return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
   }
 }
 
-export async function PUT(req: NextApiRequest, res: NextApiResponse) {
-  const { id, type, name, descriptions } = req.body;
-
-  if (!id || !type || !name || !descriptions) {
-    return res.status(400).json({ error: "All fields are required" });
-  }
-
+export async function PUT(req: NextApiRequest, res: Response) {
   try {
+    const { id, type, name, descriptions } = req.body;
+
+    if (!id || !type || !name || !descriptions) {
+      return new Response(JSON.stringify({ error: "All fields are required" }), { status: 400 });
+    }
+
     const updatedCard = await prisma.card.update({
       where: { id: BigInt(id) },
       data: {
         type,
         name,
         card_description: {
-          deleteMany: {},
-          create: descriptions.map((desc: string) => ({ description: desc })),
+          updateMany: descriptions.map((desc: any) => ({
+            where: { id: BigInt(desc.id) },
+            data: { description: desc.description },
+          })),
         },
       },
     });
-    return res.status(200).json(updatedCard);
+
+    return new Response(JSON.stringify(updatedCard, bigintReplacer), { status: 200 });
   } catch (error) {
-    return res.status(500).json({ error: "Internal server error" });
+    console.error("Error updating card:", error);
+    return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
   }
 }
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextApiRequest, res: Response) {
   const { type, name, descriptions } = req.body;
 
   if (!type || !name || !descriptions) {
-    return res.status(400).json({ error: "All fields are required" });
+    return new Response(JSON.stringify({ error: "All fields are required" }), { status: 400 });
   }
 
   try {
@@ -89,17 +67,18 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
         },
       },
     });
-    return res.status(201).json(newCard);
+    return new Response(JSON.stringify(newCard, bigintReplacer), { status: 201 });
   } catch (error) {
-    return res.status(500).json({ error: "Internal server error" });
+    console.error("Error creating card:", error);
+    return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
   }
 }
 
-export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
+export async function DELETE(req: NextApiRequest) {
   const { id } = req.body;
 
   if (!id) {
-    return res.status(400).json({ error: "Card ID is required" });
+    return new Response(JSON.stringify({ error: "Card ID is required" }), { status: 400 });
   }
 
   try {
@@ -111,9 +90,10 @@ export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
       where: { id: BigInt(id) },
     });
 
-    return res.status(204).end();
+    return new Response(null, { status: 204 });
   } catch (error) {
-    return res.status(500).json({ error: "Internal server error" });
+    console.error("Error deleting card:", error);
+    return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
   }
 }
 
