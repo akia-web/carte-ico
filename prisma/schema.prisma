@@ -12,6 +12,7 @@ model card {
   id                 BigInt               @id @default(autoincrement())
   type               String?              @db.VarChar
   name               String?              @db.VarChar
+  img_url            String?
   card_description   card_description[]
   card_num_by_player card_num_by_player[]
 }
@@ -61,4 +62,37 @@ model user_stat {
   num_game   BigInt?
   num_win    BigInt?
   user       user?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model feedback {
+  id         BigInt   @id @default(autoincrement())
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  email      String?
+  message    String?
+  type       String?
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model game_config {
+  id    BigInt  @id @default(autoincrement())
+  name  String?
+  value BigInt?
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model game_rules {
+  id         BigInt   @id @default(autoincrement())
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  title      String?
+  message    String?
+  order      BigInt?
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model illustration {
+  id         BigInt   @id @default(autoincrement())
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  url        String?
+  name       String?
 }
