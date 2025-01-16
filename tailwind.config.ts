@@ -11,6 +11,10 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primaryDarkColor:"#3B3F40",
+        primaryLightColor:"#D8D8D6",
+        secondaryActionColor: "#357361",
+        goldenColor: "#BF9A54"
       },
     },
   },
