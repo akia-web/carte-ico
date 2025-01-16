@@ -2,15 +2,41 @@
 import { useState } from "react";
 
 export default function AdminConfigForm() {
-  // Gestion des états pour les champs du formulaire
   const [textInput, setTextInput] = useState("");
   const [numberInput, setNumberInput] = useState("");
+  const [status, setStatus] = useState('');
 
-  // Gestion de la soumission du formulaire
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Données envoyées :", { textInput, numberInput });
-  };
+    const newconfig={name: textInput, value: numberInput
+
+
+    }
+    console.log("Données envoyées :", newconfig);
+
+    try {
+        const response = await fetch('http://localhost:3000/api/admin-dashboard/configuration', {  
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newconfig),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to send message');
+        }
+
+        setStatus('success');
+        setTextInput("");  // Reset form1
+        setNumberInput("")
+
+    } catch (error) {
+        console.error('Error sending message:', error);
+        setStatus('error');
+    }
+};
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -20,7 +46,6 @@ export default function AdminConfigForm() {
       >
         <h1 className="text-2xl font-bold mb-4">Configuration Admin</h1>
 
-        {/* Champ texte */}
         <div className="mb-4">
           <label htmlFor="textInput" className="block text-gray-700 font-medium mb-2">
             Clé
@@ -36,7 +61,6 @@ export default function AdminConfigForm() {
           />
         </div>
 
-        {/* Champ numérique */}
         <div className="mb-4">
           <label htmlFor="numberInput" className="block text-gray-700 font-medium mb-2">
             Valeur
@@ -52,7 +76,6 @@ export default function AdminConfigForm() {
           />
         </div>
 
-        {/* Bouton envoyer */}
         <button
           type="submit"
           className="w-full bg-blue-500 text-white font-medium py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
