@@ -4,25 +4,27 @@ import React, { useState } from 'react';
 
 const FormContact = () => {
     const [formData, setFormData] = useState({
+        type: 'bug',
         email: '',
         message: '',
     });
     const [status, setStatus] = useState('');
 
-    const handleChange = (e: React.FormEvent) => {
-        const { name, value  } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
+    // const handleChange = (e: React.FormEvent) => {
+    //     const { name, value  } = e.target;
+    //     setFormData(prevState => ({
+    //         ...prevState,
+    //         [name]: value
+    //     }));
+    // };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        console.log(formData)
         setStatus('sending');
 
         try {
-            const response = await fetch('/api/contact', {  // Adjust this URL to match your API endpoint
+            const response = await fetch('http://localhost:3000/api/admin-dashboard/contact', {  
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,7 +37,7 @@ const FormContact = () => {
             }
 
             setStatus('success');
-            setFormData({ email: '', message: '' });  // Reset form
+            setFormData({ email: '', type: 'bug', message: '' });  // Reset form
         } catch (error) {
             console.error('Error sending message:', error);
             setStatus('error');
@@ -54,12 +56,22 @@ const FormContact = () => {
                         id="email"
                         name="email"
                         value={formData.email}
-                        onChange={handleChange}
+                        onChange={(e)=>    setFormData((prev) => ({
+                            ...prev,
+                            ['email']: e.target.value, // Mise à jour dynamique de la clé correspondante
+                          }))}
                         required
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     />
                 </div>
-
+                    <select name="type" id="feedback-select"  onChange={(e)=>    setFormData((prev) => ({
+                            ...prev,
+                            ['type']: e.target.value, 
+                          }))}>
+                        <option value="">--Please choose an option--</option>
+                        <option value="bug">Bug</option>
+                        <option value="suggestion">Suggestion</option>
+                    </select>
                 <div>
                     <label htmlFor="message" className="block text-sm font-medium text-gray-700">
                         Message
@@ -68,7 +80,10 @@ const FormContact = () => {
                         id="message"
                         name="message"
                         value={formData.message}
-                        onChange={handleChange}
+                        onChange={(e)=>    setFormData((prev) => ({
+                            ...prev,
+                            ['message']: e.target.value, // Mise à jour dynamique de la clé correspondante
+                          }))}
                         required
                         rows={4}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
