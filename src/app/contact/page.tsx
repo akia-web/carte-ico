@@ -9,22 +9,13 @@ const FormContact = () => {
         message: '',
     });
     const [status, setStatus] = useState('');
-
-    // const handleChange = (e: React.FormEvent) => {
-    //     const { name, value  } = e.target;
-    //     setFormData(prevState => ({
-    //         ...prevState,
-    //         [name]: value
-    //     }));
-    // };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log(formData)
         setStatus('sending');
 
         try {
-            const response = await fetch('http://localhost:3000/api/admin-dashboard/contact', {  
+            const response = await fetch('http://localhost:3000/api/contact', {  
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

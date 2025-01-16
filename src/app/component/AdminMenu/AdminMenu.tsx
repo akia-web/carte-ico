@@ -1,4 +1,3 @@
-import { Menu } from "primereact/menu";
 import { Menubar } from "primereact/menubar";
 
 export default function AdminMenu() {
