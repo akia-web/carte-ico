@@ -1,0 +1,22 @@
+export enum BonusEnum{
+    MAL_DE_MER = 'Mal-de-mer', 
+    MER_AGITEE = 'Mer-agitee', 
+    ANTIDOTE = 'Antidote', 
+    OBSERVATEUR = 'Observateur', 
+    TRIBORD = 'Tribord', 
+    PAR_DESSUS_BORD = 'Par-dessus-bord', 
+    CARTE_AU_TRESOR = 'Carte-au-tresor', 
+    MALANDRIN = 'Malandrin', 
+    VOYAGE_EXPRESSE = 'Voyage-expresse', 
+    AMARRAGE = 'Amarrage', 
+    CHANCEUX = 'Chanceux', 
+    PERROQUET = 'Perroquet', 
+    CHARLATAN = 'Charlatan', 
+    DOUBLE = 'Double', 
+    LEVIATHAN = 'Leviathan', 
+    MEDUSA = 'Medusa', 
+    TROC = 'Troc', 
+    MARCHAND = 'Marchand', 
+    SOLITAIRE = 'Solitaire', 
+    TYPHON = 'Typhon'
+}

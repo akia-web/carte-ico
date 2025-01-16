@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { GameProvider } from "./provider/game";
+import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
+import LayoutWrapper from "./component/layoutWrapper/LayoutWrapper";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,9 +31,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <PrimeReactProvider>
         <GameProvider>
-        {children}
+          <LayoutWrapper>
+          <div className="mt-8">
+          {children}
+          </div>
+        </LayoutWrapper>
         </GameProvider>
+        </PrimeReactProvider>
+     
         
       </body>
     </html>
