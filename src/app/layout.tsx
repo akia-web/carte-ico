@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { GameProvider } from "./provider/game";
 import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
-import Header from "./component/header/header";
+import LayoutWrapper from "./component/layoutWrapper/LayoutWrapper";
 
 
 const geistSans = Geist({
@@ -33,11 +33,11 @@ export default function RootLayout({
       >
         <PrimeReactProvider>
         <GameProvider>
-          <Header></Header>
+          <LayoutWrapper>
           <div className="mt-8">
           {children}
           </div>
-       
+        </LayoutWrapper>
         </GameProvider>
         </PrimeReactProvider>
      

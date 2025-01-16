@@ -2,3 +2,81 @@
 @tailwind components;
 @tailwind utilities;
 @import "primereact/resources/themes/lara-light-cyan/theme.css";
+
+
+@font-face {
+    font-family: 'alleyOop';
+    src: url('/fonts/Alley-Oop.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'poppins';
+    src: url('/fonts/Poppins-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.p-slider .p-slider-handle{
+    background-color: #152B59;
+}
+
+.p-slider .p-slider-range{
+    background-color: #BF9A54;
+}
+
+.shadow{
+    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(2px);
+}
+
+h1{
+    font-family: 'alleyOop', sans-serif;
+}
+
+p, span{
+    font-family: 'poppins', 'sans-serif';
+}
+
+.card-container {
+    perspective: 1000px;
+    width: 170px;
+    height: 296px;
+    cursor: pointer;
+}
+  
+.card {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+  
+  .card-container.flipped .card {
+    transform: rotateY(180deg);
+  }
+  
+  .card-front,
+  .card-back {
+    position: absolute;
+    backface-visibility: hidden;
+    border-radius: 5px; 
+  }
+  
+  .card-front {
+    background-color: #fff;
+  }
+  
+  .card-back {
+    background-color: #fff;
+    transform: rotateY(180deg);
+  }
+
+  .scrollable {
+    width: 300px;
+    height: 50vh;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+    scroll-behavior: smooth;
+  }
