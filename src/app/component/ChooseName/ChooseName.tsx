@@ -16,10 +16,10 @@ export default function ChooseName() {
     const [hasFlippedRole, setHasFlippedRole] = useState<boolean>(false)
     const [hasFlippedBonus, setHasFlippedBonus] = useState<boolean>(false)
 
-    const dossierRole : string = '/cartes/roles/'
+    const dossierRole : string = '/cartes/Roles/'
     const srcRoleBack:string=`${dossierRole}dos.svg`;
     const srcRoleFront:string=`${dossierRole}${selectedPlayer.role}.svg`
-    const dossierBonus : string = '/cartes/bonus/'
+    const dossierBonus : string = '/cartes/Bonus/'
     const srcBonusBack:string=`${dossierBonus}dos.svg`
     const srcBonusFront:string=`${dossierBonus}${selectedPlayer.bonus}.svg`
 

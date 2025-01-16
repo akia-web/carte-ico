@@ -34,7 +34,7 @@ export default function PartyReveal() {
                     <h1 className="text-2xl text-center bg-primaryDarkColor text-white p-2.5 mb-2.5">Bravo !</h1>
                     <p>Les {gagnant} ont gagnés cette manche</p>
                     
-                    <Image src={`/cartes/roles/${gagnant}.svg`}
+                    <Image src={`/cartes/Roles/${gagnant}.svg`}
                             width={170}
                             height={296}
                             alt={`carte rôle ${gagnant}}`}/>
