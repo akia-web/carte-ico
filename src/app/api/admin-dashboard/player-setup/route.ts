@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    await prisma.$transaction(async (prisma) => {
+    await prisma.$transaction(async (prisma: Prisma.TransactionClient) => {
       // Delete existing card sets for the player count
       await prisma.card_num_by_player.deleteMany({
         where: {

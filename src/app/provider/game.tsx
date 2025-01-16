@@ -6,6 +6,7 @@ import { GameContextType } from "../interfaces/game-context-type";
 import { StepEnum } from "../enum/stepEnum";
 import { Player } from "../interfaces/player.dto";
 import { RoleEnum } from "../enum/roleEnum";
+import { BonusEnum } from "../enum/bonusEnum";
 
 export const GameContext: Context<GameContextType> = createContext<GameContextType>({
     tour: 1,
@@ -67,18 +68,18 @@ export const GameProvider = ({children}: { children: ReactNode }) => {
 
     
     const setEquipe= (players: Player[]) =>{
-        console.log(tour)
         setSelectedEquipe(players);
         if(tour === 1){
-            console.log('je vais en voyage')
             changeView(StepEnum.VOTE_VOYAGE)
         }else{
-            console.log('je demande l avis des autres')
             changeView(StepEnum.VOTE_EQUIPAGE)
         }
     }
 
     const setExpeditionActions = (actions: string[])=>{
+        if(actions.length < 3){
+            console.log(`taille du tableau des actions : ${actions.length}`)
+        }
         setExpeditionActionParty(actions)
         changeView(StepEnum.PARTY_REVEAL)
     }
@@ -112,7 +113,6 @@ export const GameProvider = ({children}: { children: ReactNode }) => {
 
     const changeView = (name: StepEnum) => {
         setStep(name);
-        console.log(players)
     }
 
 
@@ -121,7 +121,7 @@ export const GameProvider = ({children}: { children: ReactNode }) => {
         let pirate = Math.floor((numberPlayer - 1) / 2 )
         let marins = numberPlayer - sirene - pirate
         let index = 1
-        let bonus = ['Mal de mer', 'Mer agité', 'Antidote', 'Observateur', 'Tribord', 'Par-dessus bord', 'Carte au trésor', 'Malandrin', 'Voyage express', 'Amarrage', 'Chanceux', 'Perroquet', 'Charlatant', 'Double', 'Léviathan', 'Médusa', 'Troc', 'Marchand', 'Solitaire', 'Typhon']
+        let bonus = Object.values(BonusEnum);
         const resultPlayers : Player[] = []
         let indexBonus = Math.floor(Math.random() * bonus.length)
         //sirene
@@ -164,17 +164,14 @@ export const GameProvider = ({children}: { children: ReactNode }) => {
 
     const responseEquipeChooseByCapitain = (response:boolean) =>{
         if(response){
-            console.log('je vais en voyage')
             changeView(StepEnum.VOTE_VOYAGE)
         }else{
             setEquipe([]);
             if(capitainCanMakeNewEquipe){
-                console.log('meme capitaine mais change d equipe')
                 setCapitainCanMakeNewEquipe(false)
                 changeView(StepEnum.EQUIPAGE)
                 return
             }else{
-                console.log('change de capitaine')
                 getNextCapitain();
                 changeView(StepEnum.CAPITAINE)
                 setCapitainCanMakeNewEquipe(true)
