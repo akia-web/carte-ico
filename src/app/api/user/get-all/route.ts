@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { adminMiddleware } from "../../../../middleware/authMiddleware";
 
 const prisma = new PrismaClient();
 
@@ -9,6 +10,11 @@ function bigintReplacer(key: string, value: any) {
 
 export async function GET(request: NextRequest) {
   try {
+    const authError = await adminMiddleware(request);
+    if (authError) {
+      return authError;
+    }
+
     // Check database connection
     await prisma.$connect();
     console.log("Database connected successfully");
