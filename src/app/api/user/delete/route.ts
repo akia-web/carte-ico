@@ -1,11 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { authMiddleware } from "../../../../middleware/authMiddleware";
+import { adminMiddleware } from "../../../../middleware/authMiddleware";
 
 const prisma = new PrismaClient();
 
 export async function DELETE(request: NextRequest) {
   try {
+    const authError = await adminMiddleware(request);
+    if (authError) {
+      return authError;
+    }
+
     const { userId } = await request.json();
     console.log("Received data:", { userId }); // Log received data
 
@@ -15,12 +20,6 @@ export async function DELETE(request: NextRequest) {
         { error: "Missing required fields" },
         { status: 400 }
       );
-    }
-
-    // Check authorization
-    const authError = await authMiddleware(request, BigInt(userId));
-    if (authError) {
-      return authError;
     }
 
     // Check database connection
