@@ -23,7 +23,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0F4C81] flex flex-col items-center justify-center px-4 pb-36">
+    <div className="min-h-screen bg-[#0F4C81] flex flex-col items-center justify-center px-4 pb-48">
       {/* Logo Section */}
 
       {/* Title */}
@@ -90,7 +90,7 @@ export default function LoginForm() {
         {/* Register Link */}
         <div className="text-center text-white mt-6">
           <span>Pas encore de compte? </span>
-          <a href="#" className="text-[#C69C6D] hover:underline">
+          <a href="/subscribe#" className="text-[#C69C6D] hover:underline">
             S'inscrire
           </a>
         </div>

@@ -32,7 +32,7 @@ export default function SubscribeForm() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0F4C81] flex flex-col items-center justify-center px-4 pb-36">
+    <div className="min-h-screen bg-[#0F4C81] flex flex-col items-center justify-center px-4 pb-48">
 
 
       {/* Title */}
@@ -108,7 +108,7 @@ export default function SubscribeForm() {
         {/* Login Link */}
         <div className="text-center text-white mt-6">
           <span>Déjà un compte? </span>
-          <a href="#" className="text-[#C69C6D] hover:underline">
+          <a href="/login" className="text-[#C69C6D] hover:underline">
             Se connecter
           </a>
         </div>
