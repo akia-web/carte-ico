@@ -32,7 +32,7 @@ export default function ProfilePage() {
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center space-x-6">
             <div className="relative">
-              <Image src={`/icons/carte-pirates.svg`} 
+              <Image src={`/icons/carte-Pirates.svg`} 
                                        height={90} 
                                        width={90}
                                        className="mr-2.5 ml-2.5" 
