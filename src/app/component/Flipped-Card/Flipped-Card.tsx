@@ -8,7 +8,11 @@ export default function FlippedCart(
         srcBack,
         srcFront,
         selectedPlayer,
-        className
+        className,
+        width = 'w-[170px]',
+        widthNumber = 170,
+        heightNumber = 296,
+        height =  'h-[296px]'
     }: FlippedCartProps
 ) {
   const [reveal, setReveal] = useState<boolean>(false)
@@ -18,21 +22,22 @@ export default function FlippedCart(
     }
 
     return(
- <div className={`card-container ${reveal ? 'flipped' : ''} ${className? className:'' }`}
-                                     onClick={() => flipCard()}>
-                                     <div className="card">
-                                         <div className="card-front">
-                                             <Image src={srcBack} width={170} height={296} alt="Dos de carte" />
-                                         </div>
-                                         <div className="card-back">
-                                             <Image
-                                                 src={srcFront}
-                                                 width={170}
-                                                 height={296}
-                                                 alt={`Rôle ${selectedPlayer?.role}`}
-                                             />
-                                         </div>
-                                     </div>
-                                 </div>
+
+ <div className={`card-container ${width} ${height}  ${reveal ? 'flipped' : ''} ${className? className:'' }`}
+        onClick={() => flipCard()}>
+        <div className="card">
+            <div className="card-front">
+                <Image src={srcBack} width={widthNumber} height={heightNumber} alt="Dos de carte" />
+            </div>
+            <div className="card-back">
+                <Image
+                    src={srcFront}
+                    width={widthNumber}
+                    height={heightNumber}
+                    alt={`Rôle ${selectedPlayer?.role}`}
+                />
+            </div>
+        </div>
+    </div>
     )
 }

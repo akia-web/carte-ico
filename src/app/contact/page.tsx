@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { BASE_URL } from '../config/config';
+import { ToastContext } from '../provider/toastProvider';
 
 const FormContact = () => {
     const [formData, setFormData] = useState({
@@ -8,31 +10,34 @@ const FormContact = () => {
         email: '',
         message: '',
     });
-    const [status, setStatus] = useState('');
+    const {show} = useContext(ToastContext);
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(formData)
-        setStatus('sending');
 
-        try {
-            const response = await fetch('http://localhost:3000/api/contact', {  
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to send message');
+        if(formData.email !== '' && formData.message !== '' && formData.type !==''){
+            try {
+                const response = await fetch(`${BASE_URL}/api/contact`, {  
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Failed to send message');
+                }
+    
+                show('Succès', `Votre message s'est bien envoyé`, 'success')
+                setFormData({ email: '', type: 'bug', message: '' });  // Reset form
+            } catch (error) {
+                console.error('Error sending message:', error);
+                show('Erreur', `Erreur lors de l'envois de votre message`, 'error')
             }
-
-            setStatus('success');
-            setFormData({ email: '', type: 'bug', message: '' });  // Reset form
-        } catch (error) {
-            console.error('Error sending message:', error);
-            setStatus('error');
+        }else{
+            show('Erreur', `Les champs ne sont pas tous remplis`, 'error')
         }
+       
     };
 
     return (
@@ -49,7 +54,7 @@ const FormContact = () => {
                         value={formData.email}
                         onChange={(e)=>    setFormData((prev) => ({
                             ...prev,
-                            ['email']: e.target.value, // Mise à jour dynamique de la clé correspondante
+                            ['email']: e.target.value,
                           }))}
                         required
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
@@ -59,7 +64,7 @@ const FormContact = () => {
                             ...prev,
                             ['type']: e.target.value, 
                           }))}>
-                        <option value="">--Please choose an option--</option>
+                        <option value="">--Merci de renseigner une option--</option>
                         <option value="bug">Bug</option>
                         <option value="suggestion">Suggestion</option>
                     </select>
@@ -73,7 +78,7 @@ const FormContact = () => {
                         value={formData.message}
                         onChange={(e)=>    setFormData((prev) => ({
                             ...prev,
-                            ['message']: e.target.value, // Mise à jour dynamique de la clé correspondante
+                            ['message']: e.target.value,
                           }))}
                         required
                         rows={4}
@@ -83,18 +88,11 @@ const FormContact = () => {
 
                 <button
                     type="submit"
-                    disabled={status === 'sending'}
+                    disabled={formData.type === '' || formData.message === '' || formData.email === ''}
                     className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
                 >
-                    {status === 'sending' ? 'Sending...' : 'Send Message'}
+                    Envoyer
                 </button>
-
-                {status === 'success' && (
-                    <p className="text-green-600 text-sm mt-2">Message sent successfully!</p>
-                )}
-                {status === 'error' && (
-                    <p className="text-red-600 text-sm mt-2">Failed to send message. Please try again.</p>
-                )}
             </form>
         </div>
     );

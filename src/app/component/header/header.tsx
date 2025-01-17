@@ -1,16 +1,14 @@
-import Link from "next/link";
+import { useSideBar } from '@/app/provider/sideBar-provider';
 import Image from 'next/image'
+import { Button } from "primereact/button";
 
 export default function Header() {
+    const {toggleSideBar} = useSideBar()
     return(
-        <nav className="flex justify-between items-center">
-            <Image src="/logo.png" alt="" width={89} height={51} />
-            <div>
-                <Link href="" className="mr-2.5">Règle du jeu</Link>
-                <Link href="" className="mr-2.5">Contact</Link>
-               
-            </div>
-
+        <nav className="flex justify-between items-center p-2.5">
+            <Image src="/logo.svg" alt="" width={57} height={66} />
+            <Button icon="pi pi-bars text-white" 
+            onClick={toggleSideBar}/>
         </nav>
     )
 }

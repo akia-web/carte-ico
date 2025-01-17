@@ -5,5 +5,6 @@ export interface Player{
     name?: string;
     role: RoleEnum
     bonus: string
+    icon:string
 
 }

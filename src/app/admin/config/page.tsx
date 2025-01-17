@@ -1,40 +1,49 @@
 "use client";
-import { useState } from "react";
+import { BASE_URL } from "@/app/config/config";
+import { ToastContext } from "@/app/provider/toastProvider";
+import { useContext, useState } from "react";
 
 export default function AdminConfigForm() {
   const [textInput, setTextInput] = useState("");
   const [numberInput, setNumberInput] = useState("");
   const [status, setStatus] = useState('');
 
+   const {show} = useContext(ToastContext);
+
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    const newconfig={name: textInput, value: numberInput
 
-
+    if(textInput !== '' && numberInput !== ''){
+      const newconfig={
+        name: textInput, 
+        value: numberInput
+      }
+  
+  
+      try {
+          const response = await fetch(`${BASE_URL}/api/admin-dashboard/configuration`, {  
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(newconfig),
+          });
+  
+          if (!response.ok) {
+              throw new Error('Failed to send message');
+          }
+  
+          setStatus('success');
+          setTextInput("");  // Reset form1
+          setNumberInput("")
+  
+      } catch (error) {
+          console.error('Error sending message:', error);
+          setStatus('error');
+      }
     }
-    console.log("Données envoyées :", newconfig);
 
-    try {
-        const response = await fetch('http://localhost:3000/api/admin-dashboard/configuration', {  
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newconfig),
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to send message');
-        }
-
-        setStatus('success');
-        setTextInput("");  // Reset form1
-        setNumberInput("")
-
-    } catch (error) {
-        console.error('Error sending message:', error);
-        setStatus('error');
-    }
+   
 };
 
 
