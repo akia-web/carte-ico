@@ -11,7 +11,6 @@ export async function authMiddleware(request: NextRequest, userId: BigInt) {
   }
 
   const token = authHeader.split(" ")[1];
-  // Assuming you have a function to verify the token and get the user
   const user = await verifyToken(token);
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -25,11 +24,9 @@ export async function authMiddleware(request: NextRequest, userId: BigInt) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  return null; // No error, proceed with the request
+  return null; 
 }
 
 async function verifyToken(token: string) {
-  // Implement your token verification logic here
-  // Return the user object if the token is valid
-  return { id: 1, role: "admin" }; // Example user object
+  return { id: 1, role: "admin" }; 
 }
