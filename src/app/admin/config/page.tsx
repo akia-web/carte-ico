@@ -1,12 +1,15 @@
 "use client";
-import { BASE_URL } from "@/app/config/config";
 import { ToastContext } from "@/app/provider/toastProvider";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function AdminConfigForm() {
   const [textInput, setTextInput] = useState("");
   const [numberInput, setNumberInput] = useState("");
   const [status, setStatus] = useState('');
+  const [baseUrl, setBaseUrl] = useState<string>('')
+  useEffect(()=>{
+      setBaseUrl(window.location.origin)
+  })
 
    const {show} = useContext(ToastContext);
 
@@ -21,7 +24,7 @@ export default function AdminConfigForm() {
   
   
       try {
-          const response = await fetch(`${BASE_URL}/api/admin-dashboard/configuration`, {  
+          const response = await fetch(`${baseUrl}/api/admin-dashboard/configuration`, {  
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',

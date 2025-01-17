@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useContext, useState } from 'react';
-import { BASE_URL } from '../config/config';
+import React, { useContext, useEffect, useState } from 'react';
 import { ToastContext } from '../provider/toastProvider';
 
 const FormContact = () => {
@@ -10,13 +9,19 @@ const FormContact = () => {
         email: '',
         message: '',
     });
+
+    const [baseUrl, setBaseUrl] = useState<string>('')
     const {show} = useContext(ToastContext);
+
+    useEffect(()=>{
+        setBaseUrl(window.location.origin)
+    })
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if(formData.email !== '' && formData.message !== '' && formData.type !==''){
             try {
-                const response = await fetch(`${BASE_URL}/api/contact`, {  
+                const response = await fetch(`${baseUrl}/api/contact`, {  
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
