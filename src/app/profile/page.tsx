@@ -8,7 +8,7 @@ export default function ProfilePage() {
   const [isEditingPassword, setIsEditingPassword] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
 
-  // Example user data - replace with your actual data
+
   const userData = {
     username: "Capitaine_Jacques",
     email: "jack@pirate.fr",
@@ -31,7 +31,6 @@ export default function ProfilePage() {
       <div className="bg-[#0A3860] p-6">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center space-x-6">
-            {/* Avatar - Replace src with your icon path */}
             <div className="relative">
               <Image src={`/icons/carte-pirates.svg`} 
                                        height={90} 
@@ -57,9 +56,8 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="max-w-4xl mx-auto p-6 space-y-8">
-        {/* Game Statistics */}
+        {/* Stats */}
         <section className="bg-white/10 rounded-lg p-6">
           <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
             <Trophy size={24} />
@@ -104,14 +102,12 @@ export default function ProfilePage() {
           </div>
         </section>
 
-        {/* Account Settings */}
         <section className="bg-white/10 rounded-lg p-6">
           <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
             <Settings size={24} />
             Options de compte
           </h2>
           
-          {/* Email Change */}
           <div className="mb-6">
             <div className="flex justify-between items-center mb-2">
               <label className="text-sm text-gray-300">Addresse mail</label>
@@ -138,7 +134,6 @@ export default function ProfilePage() {
             )}
           </div>
 
-          {/* Password Change */}
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="text-sm text-gray-300">Mot de passe</label>
