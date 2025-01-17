@@ -12,9 +12,11 @@ export default function LayoutWrapper({children}: { children: React.ReactNode })
     if (pathname.startsWith("/admin")) {
         return (<>
                 <ToastProvider>
+                <div className="bg-white full-height">
                     <AdminMenu></AdminMenu> <br />
+              
                     {children}
-
+                    </div>
                 </ToastProvider>
             </>
         )
