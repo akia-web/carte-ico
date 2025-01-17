@@ -4,6 +4,8 @@ import { useGame } from "@/app/provider/game";
 import { Button } from "primereact/button";
 import { useEffect, useState } from "react";
 import FlippedCart from "../Flipped-Card/Flipped-Card";
+import Image from 'next/image'
+
 
 
 export default function ChooseName() {
@@ -33,8 +35,7 @@ export default function ChooseName() {
         setSelectedPlayer(players[selectPlayerIndex])
     }, [selectPlayerIndex]);
 
-    const validate = (e: React.FormEvent) => {
-        e.preventDefault()
+    const validate = () => {
         setValidName(true)
         setName(selectedPlayer, nameChoose)
     }
@@ -53,62 +54,62 @@ export default function ChooseName() {
     return(
        <div>
         {selectedPlayer && selectedPlayer.name && validName?(
-            <div className="w-[80%] m-auto border mt-8">
-            <div className="flex flex-col justify-center">
-                <div className="shadow">
-                    <div className="bg-primaryDarkColor text-white h-14 flex justify-center items-center">
-                        <h1>Moussaillon {selectedPlayer.name}</h1>
-                    </div>
-                    <div className="px-8 flex flex-col">
-                            <div className="flex flex-col mt-2.5">
-                                <div className="flex">
-                                    <FlippedCart
-                                    onClickAction={()=> setHasFlippedRole(true)}
-                                    srcBack={srcRoleBack}
-                                    srcFront={srcRoleFront}
-                                    selectedPlayer={selectedPlayer}
-                                    className="mr-2"/>
 
-                                    <FlippedCart
-                                    onClickAction={()=> setHasFlippedBonus(true)}
-                                    srcBack={srcBonusBack}
-                                    srcFront={srcBonusFront}
-                                    selectedPlayer={selectedPlayer}/>
-                                </div>                              
-                                
-                                <Button label="Joueur suivant"
-                                disabled={!hasFlippedRole || !hasFlippedBonus}
-                                onClick={()=>nextPlayer()}
-                                className="border border-secondaryActionColor text-secondaryActionColor p-2.5  mt-8 self-center mb-4"
-                                ></Button>
-                            </div>
-                    </div>
+        <div className="flex flex-col items-center w-[80%] m-auto mt-8 p-4 justify-center">
+            <div className="flex flex-col items-center bg-blueColor p-4 rounded-lg">
+                <div className="flex items-center justify-center">
+                    <Image src={`/icons/${selectedPlayer.icon}.svg`} 
+                            height={30} 
+                            width={30}
+                            className="mr-2.5" 
+                            alt="icone joueur"/>
+                    <p className="text-white">Moussaillon {selectedPlayer?.name} </p>
                 </div>
             </div>
-        </div>
+            <div className="px-8 flex flex-col">
+                <div className="flex flex-col mt-2.5">
+                    <div className="flex">
+                        <FlippedCart
+                        onClickAction={()=> setHasFlippedRole(true)}
+                        srcBack={srcRoleBack}
+                        srcFront={srcRoleFront}
+                        selectedPlayer={selectedPlayer}
+                        className="mr-2"/>
 
-
-        ):(
-            <div className="w-[80%] m-auto border mt-8">
-                <div className="flex flex-col justify-center">
-                    <div className="shadow">
-                        <div className="bg-primaryDarkColor text-white h-14 flex justify-center items-center">
-                            <h1>Moussaillon {selectedPlayer?.position}</h1>
-                        </div>
-                        <div className="px-8 flex flex-col">
-                                <form className="flex flex-col mt-2.5"
-                                 onSubmit={validate}>
-                                    <label htmlFor="">Nom</label>
-                                    <input type="text" 
-                                           className="border p-2.5"
-                                           onChange={(e) => setNameChoose(e.target.value)} />
-                                    <Button label="Valider"
-                                    className="border border-secondaryActionColor text-secondaryActionColor p-2.5  mt-8 self-center mb-4"
-                                    ></Button>
-                                </form>
-                        </div>
-                    </div>
+                        <FlippedCart
+                        onClickAction={()=> setHasFlippedBonus(true)}
+                        srcBack={srcBonusBack}
+                        srcFront={srcBonusFront}
+                        selectedPlayer={selectedPlayer}/>
+                    </div>                              
+                    
+                    <Button label="Joueur suivant"
+                    disabled={!hasFlippedRole || !hasFlippedBonus}
+                    onClick={()=>nextPlayer()}
+                    className="bg-goldenColor text-white p-1.5 mt-4 w-[200px] self-center"
+                    ></Button>
                 </div>
+                    </div>
+        </div>
+        ):(
+            <div className="flex flex-col items-center w-[80%] m-auto mt-8 p-4 justify-center">
+                <div className="flex flex-col items-center bg-blueColor p-4 rounded-lg">
+                    <div className="flex items-center justify-center">
+                        <Image src={`/icons/${selectedPlayer.icon}.svg`} 
+                                height={30} 
+                                width={30}
+                                className="mr-2.5" 
+                                alt="icone joueur"/>
+                        <p className="text-white">Moussaillon {selectedPlayer?.position} </p>
+                    </div>
+                    <input type="text" 
+                            className="border p-1.5 mt-2.5 rounded-lg"
+                            placeholder={`nom joueur ${selectedPlayer?.position}`}
+                            onChange={(e) => setNameChoose(e.target.value)} />
+                </div>
+                <Button label="Valider"
+                        onClick={()=>validate()}
+                        className="bg-goldenColor text-white p-1.5 mt-4 w-[200px]"/>
             </div>
         )}
       

@@ -22,5 +22,6 @@ export interface GameContextType {
     setExpeditionActions:(actions: string[])=> void;
     setWinnerParty:(winner: RoleEnum.PIRATES | RoleEnum.MARINS)=> void;
     responseEquipeChooseByCapitain:(response: boolean)=>void,
+    newGame:()=>void,
  
 }

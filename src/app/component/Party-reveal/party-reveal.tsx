@@ -30,34 +30,54 @@ export default function PartyReveal() {
         <div className="flex justify-center items-center flex-col mt-8">
             
             {carte1Reveal && carte2Reveal && carte3Reveal ? (
-                <div className="flex justify-center items-center flex-col mt-8">
-                    <h1 className="text-2xl text-center bg-primaryDarkColor text-white p-2.5 mb-2.5">Bravo !</h1>
-                    <p>Les {gagnant} ont gagnés cette manche</p>
+
+            <div className="flex flex-col items-center w-[80%] m-auto justify-center">
+                <div className="bg-blueColor rounded-lg flex items-center">
                     
-                    <Image src={`/cartes/Roles/${gagnant}.svg`}
-                            width={170}
-                            height={296}
-                            alt={`carte rôle ${gagnant}}`}/>
+                    <Image src={`/icons/dice.svg`} 
+                        height={30} 
+                        width={30}
+                        className="mr-2.5 ml-2.5" 
+                        alt="dés de jeux"/>
+                    <h1 className="text-base text-center text-white p-2.5"> Résultat</h1>
+                </div>
+                <Image src={`/icons/carte-${gagnant}.svg`}
+                    width={170}
+                    height={170}
+                    className="mt-8 mb-8"
+                    alt={`carte rôle ${gagnant}}`}/>
 
+                <p>Les {gagnant} ont gagnés cette manche</p>
+                <Button label="Continuer"
+                    onClick={()=>setWinnerParty(gagnant)}
+                    className="bg-goldenColor text-white p-1.5  w-[200px] mt-8"/>
+                </div>
+            ):(
 
-                    <Button label="Continuer"
-                            onClick={()=>setWinnerParty(gagnant)}
-                            className="border border-secondaryActionColor text-secondaryActionColor p-2.5  mt-8 self-center mb-4"/>
+                <div className="flex flex-col items-center w-[80%] m-auto justify-center">
+                <div className="bg-blueColor rounded-lg flex items-center">
+                    
+                    <h1 className="text-base text-center text-white p-2.5"> Resultat de la partie</h1>
+                </div>
+ 
+                <div className="flex mt-8">
+                    {expeditionActions.map((element, index) => (
+                        <FlippedCart
+                        key={index}
+                        width="w-[100px]"
+                        height="h-[100px]"
+                        className="mr-2.5"
+                        widthNumber={100}
+                        heightNumber={100}
+                        srcBack="/icons/dos-actions.svg"
+                        srcFront={`/icons/carte-action-${element}.svg`}
+                        onClickAction={()=>setRevealIndex(index)}
+                    />
+                    ))}
                 </div>
 
-            ):(
-                <div className="flex justify-center items-center flex-col mt-8">
-                    <h1 className="text-2xl text-center bg-primaryDarkColor text-white p-2.5 mb-2.5">Resultat de la partie</h1>
-                    <div className="flex">
-                        {expeditionActions.map((element, index) => (
-                            <FlippedCart
-                            key={index}
-                            srcBack="/cartes/Actions/dos.svg"
-                            srcFront={`/cartes/Actions/${element}.svg`}
-                            onClickAction={()=>setRevealIndex(index)}
-                        />
-                        ))}
-                    </div>
+                <p className="text-sm italic mt-10">Retournez les cartes pour découvrir le résultat</p>
+
                 </div>
             )}
             

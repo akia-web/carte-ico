@@ -1,0 +1,22 @@
+export enum IconsPlayersEnum{
+    WHALE="whale",
+    KRAKEN="kraken",
+    MESSAGE="message",
+    LIGHTHOUSE="lighthouse",
+    SHIP_IN_A_BOTTLE = "ship-in-a-bottle",
+    LIFEBUOY = "lifebuoy",
+    PORTHOLE = "porthole",
+    BARREL = "barrel",
+    MUG = "mug",
+    MONNEY_BAG = "money-bag",
+    SCROLL = "scroll",
+    ROUND_SHOT = "round-shot",
+    SAILOR = "sailor",
+    PIPE = "pipe",
+    SPYGLASS="spyglass",
+    ANCHOR = "anchor",
+    MUSKET = "musket",
+    COMPASS = "compass",
+    CANNON = "cannon",
+    HOOK = "hook"
+}

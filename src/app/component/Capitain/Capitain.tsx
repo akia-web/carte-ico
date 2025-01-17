@@ -23,41 +23,70 @@ export default function Capitain() {
     return(
       <div className="mt-8">
         {affichePageTitle && tour === 1?(
-            <div onClick={()=> setAffichePageTitle(false)}
-                  className="flex justify-center items-center flex-col">
-              <h1 className="text-2xl text-center bg-primaryDarkColor text-white p-2.5 mb-2.5"> Choix du capitaine</h1>
-              <Image src="/Illustrations/capitain.svg" 
+          <div className="flex flex-col items-center w-[80%] m-auto mt-8 p-4 justify-center"
+            onClick={()=> setAffichePageTitle(false)}>
+                <div className="bg-blueColor rounded-lg flex items-center">
+                  <Image src={`/Illustrations/pirate-hat.svg`} 
+                          height={30} 
+                          width={30}
+                          className="mr-2.5 ml-2.5" 
+                          alt="Chapeau de pirate"/>
+                  <h1 className="text-xl text-center text-white p-2.5"> Choix du capitaine</h1>
+                </div>
+                <Image src="/Illustrations/capitain.svg" 
                       height={100} 
                       width={300} 
                       alt="image capitaine"
-                      className="mb-4"/>
-              <span className="italic">Appuyez pour continuer...</span>
-            </div>
+                      className="mb-4 mt-4"/>
+                <span className="italic">Appuyez pour continuer...</span>
+          </div>
         ):(
         <div className="flex justify-center items-center flex-col">
           {tour === 1? (
-          <div className="flex justify-center items-center flex-col">
-            <h1 className="text-2xl text-center bg-primaryDarkColor text-white p-2.5 mb-2.5">Selectionner le capitaine</h1>
+          <div className="flex flex-col items-center w-[80%] m-auto justify-center">
+              <div className="bg-blueColor rounded-lg flex items-center">
+                <Image src={`/Illustrations/pirate-hat.svg`} 
+                        height={30} 
+                        width={30}
+                        className="mr-2.5 ml-2.5" 
+                        alt="Chapeau de pirate"/>
+                <h1 className="text-xl text-center text-white p-2.5"> Choix du capitaine</h1>
+              </div>
 
-            <div className="scrollable m-auto">
-              {players.map((element) => (
-                    <div key={element.position}
-                    className={`${element.position === selectCapitain?.position?'bg-goldenColor ':''} border-b border-b-black p-2.5`} 
-                    onClick={()=>setSelectCapitain(element)}>
-                        {element.name}
-                    </div>
-                ))}
+              <div className="scrollable m-auto mt-4">
+               {players.map((element) => (
+                     <div key={element.position}
+                     className={`${element.position === selectCapitain?.position?'bg-goldenColor ':''} flex items-center p-1.5 cursor-pointer`} 
+                     onClick={()=>setSelectCapitain(element)}>
+                        <Image src={`/icons/${element.icon}.svg`} 
+                        height={30} 
+                        width={30}
+                        className="mr-2.5 ml-2.5" 
+                        alt="icone du joueur"/>
+                          
+                          <span>{element.name}</span>
+                     </div>
+                 ))}
+             </div>
+             <Button label="Valider le Capitaine"
+               disabled={selectCapitain===undefined}
+               onClick={()=>validate()}
+               className="bg-goldenColor text-white p-1.5  w-[200px] mt-4"/>
             </div>
-          
-               <Button label="Valider le Capitaine"
-                        disabled={selectCapitain===undefined}
-                        onClick={()=>validate()}
-                        className="border border-secondaryActionColor text-secondaryActionColor p-2.5  mt-8 self-center mb-4"/>
-          </div>
           ):(
-            <div>
-              <p>Le nouveau capitaine est {capitain?.name}</p>
-              <span onClick={()=> changeView(StepEnum.EQUIPAGE)}>Taper pour continuer</span>
+
+            <div className="flex flex-col items-center w-[80%] m-auto justify-center">
+            <div className="bg-blueColor rounded-lg flex items-center p-2.5 mb-8">
+              <h1 className="text-sm text-center text-white"> Nouveau capitaine : </h1>
+              <Image src={`/icons/${capitain?.icon}.svg`} 
+                        height={30} 
+                        width={30}
+                        className="mr-2.5 ml-2.5" 
+                        alt="icone du joueur"/>
+              <h1 className="text-sm text-center text-white">{capitain?.name}</h1>
+            </div>
+            <span onClick={()=> changeView(StepEnum.EQUIPAGE)}
+                className="italic text-sm">Taper pour continuer</span>
             </div>
           )}
       

@@ -13,6 +13,7 @@
     "@types/next": "^9.0.0",
     "bcryptjs": "^2.4.3",
     "next": "15.1.4",
+    "primeicons": "^7.0.0",
     "primereact": "^10.9.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

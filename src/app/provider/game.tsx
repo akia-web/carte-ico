@@ -7,6 +7,7 @@ import { StepEnum } from "../enum/stepEnum";
 import { Player } from "../interfaces/player.dto";
 import { RoleEnum } from "../enum/roleEnum";
 import { BonusEnum } from "../enum/bonusEnum";
+import { IconsPlayersEnum } from "../enum/iconsPlayersEnum";
 
 export const GameContext: Context<GameContextType> = createContext<GameContextType>({
     tour: 1,
@@ -33,7 +34,8 @@ export const GameContext: Context<GameContextType> = createContext<GameContextTy
     scorePirates:0,
     scoreMarins: 0,
     responseEquipeChooseByCapitain:():void =>{},
-    capitainCanMakeNewEquipe: true
+    capitainCanMakeNewEquipe: true,
+    newGame:(): void => {}
 
 });
 
@@ -80,6 +82,7 @@ export const GameProvider = ({children}: { children: ReactNode }) => {
         if(actions.length < 3){
             console.log(`taille du tableau des actions : ${actions.length}`)
         }
+        actions.sort(() => Math.random() - 0.5)
         setExpeditionActionParty(actions)
         changeView(StepEnum.PARTY_REVEAL)
     }
@@ -89,16 +92,20 @@ export const GameProvider = ({children}: { children: ReactNode }) => {
     }
 
     useEffect(()=>{
-        if(maxManches !== 0 )
-        if(scorePirates === maxManches || scoreMarins === maxManches){
-            changeView(StepEnum.FINAL_REVEAL)
-        }else{
-            setSelectedEquipe([])
-            setExpeditionActionParty([])
-            setTour((prev)=> prev+=1)
-            getNextCapitain()
-            changeView(StepEnum.CAPITAINE)
+        if(maxManches !== 0 && step !== StepEnum.INIT){
+            if(scorePirates === maxManches || scoreMarins === maxManches){
+                changeView(StepEnum.FINAL_REVEAL)
+            }else{
+                console.log('je suis la')
+                console.log(step)
+                setSelectedEquipe([])
+                setExpeditionActionParty([])
+                setTour((prev)=> prev+=1)
+                getNextCapitain()
+                changeView(StepEnum.CAPITAINE)
+            }
         }
+        
 
     },[scorePirates, scoreMarins])
 
@@ -122,22 +129,29 @@ export const GameProvider = ({children}: { children: ReactNode }) => {
         let marins = numberPlayer - sirene - pirate
         let index = 1
         let bonus = Object.values(BonusEnum);
+        let icon = Object.values(IconsPlayersEnum);
         const resultPlayers : Player[] = []
         let indexBonus = Math.floor(Math.random() * bonus.length)
+        let indexIcon = Math.floor(Math.random() * icon.length)
         //sirene
-        resultPlayers.push(addPlayerToList(bonus[indexBonus], RoleEnum.SIRENE))
+        resultPlayers.push(addPlayerToList(bonus[indexBonus], RoleEnum.SIRENE, icon[indexIcon]))
         bonus = bonus.filter(element=> element !== bonus[indexBonus])
+        icon = icon.filter(element=> element !== icon[indexIcon])
 
         for(let i = 0; i<pirate; i++){
             indexBonus = Math.floor(Math.random() * bonus.length)
-            resultPlayers.push(addPlayerToList(bonus[indexBonus], RoleEnum.PIRATES))
+            indexIcon = Math.floor(Math.random() * icon.length)
+            resultPlayers.push(addPlayerToList(bonus[indexBonus], RoleEnum.PIRATES, icon[indexIcon]))
             bonus = bonus.filter(element=> element !== bonus[indexBonus])
+            icon = icon.filter(element=> element !== icon[indexIcon])
         }
 
         for(let i = 0; i<marins; i++){
             indexBonus = Math.floor(Math.random() * bonus.length)
-            resultPlayers.push(addPlayerToList(bonus[indexBonus], RoleEnum.MARINS))
+            indexIcon = Math.floor(Math.random() * icon.length)
+            resultPlayers.push(addPlayerToList(bonus[indexBonus], RoleEnum.MARINS,icon[indexIcon] ))
             bonus = bonus.filter(element=> element !== bonus[indexBonus])
+            icon = icon.filter(element=> element !== icon[indexIcon])
         }
 
 
@@ -179,19 +193,29 @@ export const GameProvider = ({children}: { children: ReactNode }) => {
         }
     }
 
-    const addPlayerToList = ( bonus: string, role: RoleEnum ) => {
-    
-        const newPlayer : Player= {
-            role: role,
-            bonus
+    const newGame = () => {
+        setPlayers([]);
+        setSelectedCapitain(undefined)
+        setSelectedEquipe([])
+        setmaxManches(0)
+        setTour(1)
+        setScoreMarins(0);
+        setScorePirates(0)
+        setStep(StepEnum.INIT)
+    }
+
+    const addPlayerToList = ( bonus: string, role: RoleEnum, icon: IconsPlayersEnum ) => {
+        return {
+            role,
+            bonus,
+            icon
         }
-        return newPlayer
     }
 
 
 
     return (
-        <GameContext.Provider value={{tour, setName ,initGame, changeView, maxManchesGagnantes: maxManches, step, players, capitain, setCapitain, timeToSee, equipe, setEquipe, expeditionActions,setExpeditionActions, setWinnerParty, scoreMarins, scorePirates, responseEquipeChooseByCapitain, capitainCanMakeNewEquipe  }}>
+        <GameContext.Provider value={{tour, setName ,initGame, changeView, maxManchesGagnantes: maxManches, step, players, capitain, setCapitain, timeToSee, equipe, setEquipe, expeditionActions,setExpeditionActions, setWinnerParty, scoreMarins, scorePirates, responseEquipeChooseByCapitain, capitainCanMakeNewEquipe, newGame  }}>
             {children}
         </GameContext.Provider>
     );

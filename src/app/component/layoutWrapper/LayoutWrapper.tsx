@@ -5,6 +5,7 @@ import {usePathname} from "next/navigation";
 import React from "react";
 import Header from "../header/header";
 import AdminMenu from "../AdminMenu/AdminMenu";
+import { SideBarProvider } from "@/app/provider/sideBar-provider";
 
 export default function LayoutWrapper({children}: { children: React.ReactNode }) {
     const pathname: string = usePathname();
@@ -22,8 +23,11 @@ export default function LayoutWrapper({children}: { children: React.ReactNode })
     return (
         <>
             <ToastProvider>
+            <SideBarProvider>
                 <Header></Header>
+               
                 {children} 
+            </SideBarProvider>
             </ToastProvider>
         </>
     );

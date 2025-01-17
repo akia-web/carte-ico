@@ -11,7 +11,8 @@ import VoteEquipeChooseByCapitain from '@/app/component/VoteEquipeChooseByCapita
 import Voyage from '@/app/component/Voyage/Voyage';
 import { StepEnum } from '@/app/enum/stepEnum';
 import { useGame } from '@/app/provider/game';
-import { useEffect, useState } from 'react';
+import Image from 'next/image'
+
 
 export default function GameComponent() {
   const {step, maxManchesGagnantes, scoreMarins, scorePirates, tour} = useGame();
@@ -42,16 +43,34 @@ export default function GameComponent() {
   }
 
   return(
-    <div>
+    <div className={`${step  === StepEnum.INIT ? 'bg-transparent':'bg-white full-height'}`}>
       {maxManchesGagnantes > 0? (
-        <div className='flex justify-between'>
-          <div>
-            <p>Tour: {tour}</p>
+        <div className='md:w-[500px] m-auto'>
+          <div className='pt-8 ml-2.5 flex'>
+            <Image src="/icons/helm.svg" 
+                    height={25} 
+                    width={25}
+                    className="mr-2.5" 
+                    alt="image barre de navire"/>
+            <p>Traversée : {tour} </p>
           </div>
-          <div className='flex'>
-            <p className='mr-2.5'>Score :</p>
-            <p className='mr-2.5'>Marins: {scoreMarins}/{maxManchesGagnantes}</p>
-            <p>Pirates: {scorePirates}/{maxManchesGagnantes}</p>
+        
+          <div className='bg-bgScore border border-darkGrey rounded-md mr-2.5 ml-2.5 mt-2.5 py-1 px-4 flex justify-between'>
+            <p>Score</p>
+            <div className="flex items-center">
+            <Image src="/icons/pirate.svg" 
+                    height={25} 
+                    width={25}
+                    className="mr-1.5" 
+                    alt="image pirate"/>
+            <p className="mr-2.5" >{scorePirates}/{maxManchesGagnantes}</p>
+            <Image src="/icons/marin.svg" 
+                    height={25} 
+                    width={25}
+                    className="mr-1.5" 
+                    alt="image pirate"/>
+            <p>{scoreMarins}/{maxManchesGagnantes}</p>
+            </div>
           </div>
         </div>
       ):('')}

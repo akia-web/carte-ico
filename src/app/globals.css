@@ -2,11 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 @import "primereact/resources/themes/lara-light-cyan/theme.css";
+@import 'primeicons/primeicons.css';
 
 
 @font-face {
-    font-family: 'alleyOop';
-    src: url('/fonts/Alley-Oop.ttf') format('truetype');
+    font-family: 'ExpletusSans';
+    src: url('/fonts/ExpletusSans-Medium.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -32,7 +33,7 @@
 }
 
 h1{
-    font-family: 'alleyOop', sans-serif;
+    font-family: 'ExpletusSans', sans-serif;
 }
 
 p, span{
@@ -41,8 +42,6 @@ p, span{
 
 .card-container {
     perspective: 1000px;
-    width: 170px;
-    height: 296px;
     cursor: pointer;
 }
   
@@ -73,10 +72,35 @@ p, span{
   }
 
   .scrollable {
-    width: 300px;
-    height: 50vh;
-    overflow-y: scroll;
-    border: 1px solid #ccc;
-    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    height: 40vh;
+    overflow-y: auto;
     scroll-behavior: smooth;
   }
+
+  .p-sidebar-header{
+    background-color: #BF9A54;
+    padding: 10px;
+  }
+
+  .p-sidebar-close-icon {
+    width: 25px;
+    height: 25px;
+    font-size: 25px;
+    color: white;
+}
+
+  .app-container {
+    min-height: 100vh;
+    background-color: #0F4C81; /* Maritime blue */
+    background-image: linear-gradient(
+        to bottom,
+        #0F4C81,
+        #0A3860
+    );
+    }
+
+.full-height{
+  min-height: calc(100vh - 86px);
+}

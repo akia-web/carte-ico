@@ -46,8 +46,6 @@ export default function Voyage() {
     }, [selectedMember])
 
     const setAction = () =>{
-        console.log(index)
-        console.log(selectedAction)
         if(selectedAction){
             setAllSelectedAction((prev) => [...prev, selectedAction.action]);     
         }
@@ -57,22 +55,45 @@ export default function Voyage() {
     return(
         <div>
         {affichePageTitle?(
-            <div onClick={()=> setAffichePageTitle(false)}
-                    className="flex justify-center items-center flex-col mt-8">
-                <h1 className="text-2xl text-center bg-primaryDarkColor text-white p-2.5 mb-2.5">L'equipage part en expedition</h1>
-                    <Image src="/Illustrations/voyage.png" 
-                                      height={100} 
-                                      width={300} 
-                                      alt="image capitaine"
-                                      className="mb-4"/>
-                
-                <span className="italic">Cliquez pour continuer</span>
+            <div className="flex flex-col items-center w-[80%] m-auto justify-center mt-8"
+            onClick={()=> setAffichePageTitle(false)}>
+                <div className="bg-blueColor rounded-lg flex items-center">
+                    
+                    <Image src={`/icons/compass.svg`} 
+                        height={30} 
+                        width={30}
+                        className="mr-2.5 ml-2.5" 
+                        alt="compas"/>
+
+                    <h1 className="text-base text-center text-white p-2.5"> L'équipage part en expedition</h1>
+                </div>
+                <div className="mb-8 flex mt-28">
+                <Image src="/icons/ship.svg" 
+                    height={100} 
+                    width={100} 
+                    alt="illustration bateau"/>
+                <Image src="/icons/island.svg" 
+                height={100} 
+                width={100} 
+                alt="illustration ile"
+                />
+                </div>
+                <span className="italic text-sm">Cliquez pour continuer</span>
             </div>
         ):(
-            <div className="flex justify-center items-center flex-col mt-8">
-                <h1 className="text-2xl text-center bg-primaryDarkColor text-white p-2.5 mb-2.5">{selectedMember.name} choisi une carte</h1>
-               
-               <div className="flex">
+            <div className="flex flex-col items-center w-[80%] m-auto justify-center mt-8">
+                <div className="bg-blueColor rounded-lg flex items-center">
+                    
+                    <Image src={`/icons/${selectedMember.icon}.svg`} 
+                        height={30} 
+                        width={30}
+                        className="mr-2.5 ml-2.5" 
+                        alt="compas"/>
+
+                    <h1 className="text-base text-center text-white p-2.5"> {selectedMember.name} choisi une carte</h1>
+                </div>
+                
+                <div className="flex mt-4">
                {possibilityChoice.map((element) => (
                     <div key={element.order}
                     onClick={()=>setSelectedAction(element)}>
@@ -80,17 +101,17 @@ export default function Voyage() {
                         width={170} 
                         height={296} 
                         alt={`image carte ${element.action}`}
-                        className={`${element.order === selectedAction?.order?'border border-goldenColor ':''} p-2.5`} 
+                        className={`${element.order === selectedAction?.order?'border border-goldenColor ':''}`} 
                         ></Image>
                     </div>
                 ))}
 
                </div>
-               
-                <Button label="Valider le choix"
-                        disabled={selectedAction === undefined}
-                        onClick={()=>setAction()}
-                        className="border border-secondaryActionColor text-secondaryActionColor p-2.5  mt-8 self-center mb-4"/>
+               <Button label="Valider le choix"
+                    disabled={selectedAction === undefined}
+                    onClick={()=>setAction()}
+                    className="bg-goldenColor text-white p-1.5  w-[200px] mt-8"/>
+
             </div>
         )}
         </div>
