@@ -1,26 +1,45 @@
 "use client";
-import React, { useState } from 'react';
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
+import { ToastContext } from '@/app/provider/toastProvider';
+import { useRouter } from 'next/navigation';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export default function SubscribeForm() {
-  const [showPassword, setShowPassword] = useState(false);
+  const {show} = useContext(ToastContext)
+  const router: AppRouterInstance = useRouter()
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [baseUrl, setBaseUrl] = useState<string>('')
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    name: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    setBaseUrl(window.location.origin)
+  }, []);
 
+  const handleSubmit = async(e: React.FormEvent) => {
+    e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      console.error('Passwords do not match');
-      alert('Les mots de passe ne correspondent pas');
+      show('Erreur','Les mots de passes ne correspondent pas', 'error')
       return;
     }
 
-    // Add your registration logic here
-    console.log('Registration attempt:', formData);
+    await fetch(`${baseUrl}/api/user/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    }).then((res: Response)=>{{
+      if(res.status === 201){
+        show('Inscription réussite', 'Vous pouvez maintenant vous connecter', 'success')
+        router.push('/login')
+      }
+    }})
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,10 +61,26 @@ export default function SubscribeForm() {
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
+
+        <div className="relative">
+          <div className="absolute inset-y-0 left-3 flex items-center text-gray-400">
+            <User size={20}/>
+          </div>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Nom"
+            className="w-full px-10 py-3 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C69C6D]"
+            required
+          />
+        </div>
+
         {/* Email Input */}
         <div className="relative">
           <div className="absolute inset-y-0 left-3 flex items-center text-gray-400">
-            <Mail size={20} />
+            <Mail size={20}/>
           </div>
           <input
             type="email"
@@ -61,7 +96,7 @@ export default function SubscribeForm() {
         {/* Password Input */}
         <div className="relative">
           <div className="absolute inset-y-0 left-3 flex items-center text-gray-400">
-            <Lock size={20} />
+            <Lock size={20}/>
           </div>
           <input
             type={showPassword ? 'text' : 'password'}
@@ -77,14 +112,14 @@ export default function SubscribeForm() {
             onClick={() => setShowPassword(!showPassword)}
             className="absolute inset-y-0 right-3 flex items-center text-gray-400"
           >
-            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            {showPassword ? <EyeOff size={20}/> : <Eye size={20}/>}
           </button>
         </div>
 
         {/* Confirm Password Input */}
         <div className="relative">
           <div className="absolute inset-y-0 left-3 flex items-center text-gray-400">
-            <Lock size={20} />
+            <Lock size={20}/>
           </div>
           <input
             type={showPassword ? 'text' : 'password'}

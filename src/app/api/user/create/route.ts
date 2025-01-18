@@ -6,10 +6,10 @@ const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password } = await request.json();
-    console.log("Received data:", { name, email, password }); // Log received data
+    const { name, email, password, confirmPassword } = await request.json();
+    console.log("Received data:", { name, email, password, confirmPassword }); // Log received data
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !confirmPassword) {
       console.error("Missing required fields"); // Log error
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -24,6 +24,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Invalid email format" },
         { status: 400 }
+      );
+    }
+
+    if(password !== confirmPassword){
+      console.error("Password and confirmPassword are different");
+      return NextResponse.json(
+        { error: "Password and confirmPassword are different" },
+        { status: 404 }
       );
     }
 
@@ -45,13 +53,25 @@ export async function POST(request: NextRequest) {
     console.log("Database connected successfully");
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user_stat = {
+      created_at: new Date().toISOString(),
+      game_played: 0,
+      num_win: 0,
+      game_abandoned: 0,
+      game_loss: 0
+    }
+
     const newUser = await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
         role: "standard",
-        created_at: new Date().toISOString(), // Convert date to ISO string
+        created_at: new Date().toISOString(),
+        user_stat: {
+          create: user_stat,
+        },
       },
     });
 

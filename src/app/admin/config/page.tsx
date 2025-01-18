@@ -9,7 +9,7 @@ export default function AdminConfigForm() {
   const [baseUrl, setBaseUrl] = useState<string>('')
   useEffect(()=>{
       setBaseUrl(window.location.origin)
-  })
+  },[])
 
    const {show} = useContext(ToastContext);
 

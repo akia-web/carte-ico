@@ -1,12 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { adminMiddleware } from "../../../../middleware/authMiddleware";
+import { userMiddleware } from '@/middleware/authMiddleware';
+
 
 const prisma = new PrismaClient();
 
 export async function DELETE(request: NextRequest) {
   try {
-    const authError = await adminMiddleware(request);
+    const authError = await userMiddleware(request,['admin']);
     if (authError) {
       return authError;
     }

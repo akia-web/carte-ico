@@ -1,5 +1,5 @@
 import { ActionCarteEnum } from "@/app/enum/actionCarteEnum";
-import { RoleEnum } from "@/app/enum/roleEnum";
+import { RoleGameEnum } from "@/app/enum/roleGameEnum";
 import { useGame } from "@/app/provider/game";
 import { useEffect, useState } from "react";
 import Image from 'next/image'
@@ -9,7 +9,7 @@ import { Button } from "primereact/button";
 
 export default function PartyReveal() {
     const {expeditionActions, setWinnerParty, scoreMarins, scorePirates, maxManchesGagnantes} = useGame();
-    const [gagnant, setGagnant] = useState<RoleEnum.PIRATES| RoleEnum.MARINS>(expeditionActions.includes(ActionCarteEnum.POISON)?RoleEnum.PIRATES:RoleEnum.MARINS)
+    const [gagnant, setGagnant] = useState<RoleGameEnum.PIRATES| RoleGameEnum.MARINS>(expeditionActions.includes(ActionCarteEnum.POISON)?RoleGameEnum.PIRATES:RoleGameEnum.MARINS)
     const [carte1Reveal, setCarte1Reveal] = useState<boolean>(false)
     const [carte2Reveal, setCarte2Reveal] = useState<boolean>(false)
     const [carte3Reveal, setCarte3Reveal] = useState<boolean>(false)
