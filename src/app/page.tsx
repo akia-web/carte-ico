@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { Button } from 'primereact/button';
 import Image from 'next/image';
-import { useUser } from '@/app/provider/userProvider';
+import { useUser } from '@/app/provider/user.provider';
 import { useEffect, useState } from 'react';
 import { UserDto } from '@/app/interfaces/user.dto';
 

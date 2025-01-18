@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { GameProvider } from './provider/gameProvider';
+import { GameProvider } from './provider/game.provider';
 import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
-import LayoutWrapper from './component/layoutWrapper/LayoutWrapper';
-import { UserProvider } from '@/app/provider/userProvider';
+import LayoutWrapper from '@/app/component/layout-wrapper/layout-wrapper';
+import { UserProvider } from '@/app/provider/user.provider';
 
 
 const geistSans = Geist({

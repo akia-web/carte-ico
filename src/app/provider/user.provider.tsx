@@ -7,7 +7,7 @@ import { ToastContextType } from '../interfaces/toast/toast-context-type';
 import { UserContextType } from '@/app/interfaces/user-context-type';
 import { UserDto } from '@/app/interfaces/user.dto';
 import { GameContextType } from '@/app/interfaces/game-context-type';
-import { GameContext } from '@/app/provider/gameProvider';
+import { GameContext } from '@/app/provider/game.provider';
 
 
 export const UserContext: Context<UserContextType> = createContext<UserContextType>({

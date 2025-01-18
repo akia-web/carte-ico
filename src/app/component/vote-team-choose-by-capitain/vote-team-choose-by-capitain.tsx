@@ -1,8 +1,8 @@
-import { useGame } from "@/app/provider/gameProvider";
+import { useGame } from "@/app/provider/game.provider";
 import Image from 'next/image'
 import { Button } from "primereact/button";
 
-export default function VoteEquipeChooseByCapitain() {
+export default function VoteTeamChooseByCapitain() {
     const {capitain, equipe, responseEquipeChooseByCapitain} = useGame();
 
     return(

@@ -1,16 +1,16 @@
 "use client"
 
-import Capitain from '@/app/component/Capitain/Capitain';
-import ChooseName from '@/app/component/ChooseName/ChooseName';
-import CloseEyes from '@/app/component/Close-eyes/Close-eyes';
-import CreateGame from '@/app/component/CreateGame/CreateGame';
-import Equipage from '@/app/component/Equipage/Equipage';
-import FinalReveal from '@/app/component/FinalReveal/FinalReveal';
+import Capitain from '@/app/component/capitain/Capitain';
+import ChooseName from '@/app/component/choose-name/choose-name';
+import CloseEyes from '@/app/component/close-eyes/close-eyes';
+import CreateGame from '@/app/component/create-game/create-game';
+import Equipage from '@/app/component/equipage/equipage';
+import FinalReveal from '@/app/component/final-reveal/final-reveal';
 import PartyReveal from '@/app/component/Party-reveal/party-reveal';
-import VoteEquipeChooseByCapitain from '@/app/component/VoteEquipeChooseByCapitain/VoteEquipeChooseByCapitain';
-import Voyage from '@/app/component/Voyage/Voyage';
-import { StepEnum } from '@/app/enum/stepEnum';
-import { useGame } from '@/app/provider/gameProvider';
+import VoteTeamChooseByCapitain from '@/app/component/vote-team-choose-by-capitain/vote-team-choose-by-capitain';
+import Journey from '@/app/component/journey/journey';
+import { StepEnum } from '@/app/enum/step.enum';
+import { useGame } from '@/app/provider/game.provider';
 import Image from 'next/image'
 
 
@@ -30,9 +30,9 @@ export default function GameComponent() {
       case StepEnum.EQUIPAGE:
         return <Equipage></Equipage>
         case StepEnum.VOTE_EQUIPAGE:
-         return <VoteEquipeChooseByCapitain></VoteEquipeChooseByCapitain>
+         return <VoteTeamChooseByCapitain></VoteTeamChooseByCapitain>
       case StepEnum.VOTE_VOYAGE:
-        return <Voyage></Voyage>
+        return <Journey></Journey>
       case StepEnum.PARTY_REVEAL:
         return <PartyReveal></PartyReveal>
       case StepEnum.FINAL_REVEAL:

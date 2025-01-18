@@ -3,11 +3,11 @@
 import { Context, createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { GameContextType } from "../interfaces/game-context-type";
 
-import { StepEnum } from "../enum/stepEnum";
+import { StepEnum } from "../enum/step.enum";
 import { Player } from "../interfaces/player.dto";
-import { RoleGameEnum } from "../enum/roleGameEnum";
-import { BonusEnum } from "../enum/bonusEnum";
-import { IconsPlayersEnum } from "../enum/iconsPlayersEnum";
+import { RoleGameEnum } from "../enum/role-game.enum";
+import { BonusEnum } from "../enum/bonus.enum";
+import { IconsPlayersEnum } from "../enum/icons-players.enum";
 
 export const GameContext: Context<GameContextType> = createContext<GameContextType>({
     tour: 1,

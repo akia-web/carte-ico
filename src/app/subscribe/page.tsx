@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useState } from 'react';
 import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
-import { ToastContext } from '@/app/provider/toastProvider';
+import { ToastContext } from '@/app/provider/toast.provider';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 

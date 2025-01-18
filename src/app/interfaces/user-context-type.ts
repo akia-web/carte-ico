@@ -1,4 +1,4 @@
-import { typeToast } from '@/app/provider/toastProvider';
+import { typeToast } from '@/app/provider/toast.provider';
 import { UserDto } from '@/app/interfaces/user.dto';
 
 export interface UserContextType {

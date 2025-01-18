@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { bigintReplacerAllForUser } from '@/app/service/userService';
+import { bigintReplacerAllForUser } from '@/app/service/user.service';
 
 const prisma = new PrismaClient();
 

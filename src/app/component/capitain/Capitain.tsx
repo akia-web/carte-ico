@@ -1,6 +1,6 @@
-import { StepEnum } from "@/app/enum/stepEnum";
+import { StepEnum } from "@/app/enum/step.enum";
 import { Player } from "@/app/interfaces/player.dto";
-import { useGame } from "@/app/provider/gameProvider";
+import { useGame } from "@/app/provider/game.provider";
 import { useEffect, useState } from "react";
 import Image from 'next/image'
 import { Button } from "primereact/button";

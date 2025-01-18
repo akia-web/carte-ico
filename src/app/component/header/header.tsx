@@ -1,4 +1,4 @@
-import { useSideBar } from '@/app/provider/sideBar-provider';
+import { useSideBar } from '@/app/provider/side-bar.provider';
 import Image from 'next/image';
 import { Button } from 'primereact/button';
 import Link from 'next/link';

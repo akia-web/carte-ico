@@ -1,5 +1,5 @@
-import { RoleGameEnum } from "../enum/roleGameEnum";
-import { StepEnum } from "../enum/stepEnum";
+import { RoleGameEnum } from "../enum/role-game.enum";
+import { StepEnum } from "../enum/step.enum";
 import { Player as Player } from "./player.dto";
 
 export interface GameContextType {

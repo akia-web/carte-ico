@@ -1,11 +1,11 @@
 'use client';
 
-import { ToastProvider } from "@/app/provider/toastProvider";
+import { ToastProvider } from "@/app/provider/toast.provider";
 import {usePathname} from "next/navigation";
 import React from "react";
 import Header from "../header/header";
-import AdminMenu from "../AdminMenu/AdminMenu";
-import { SideBarProvider } from "@/app/provider/sideBar-provider";
+import AdminMenu from "@/app/component/admin-menu/admin-menu";
+import { SideBarProvider } from "@/app/provider/side-bar.provider";
 
 export default function LayoutWrapper({children}: { children: React.ReactNode }) {
     const pathname: string = usePathname();

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useContext, useEffect, useState } from 'react';
-import { ToastContext } from '../provider/toastProvider';
+import { ToastContext } from '../provider/toast.provider';
 
 const FormContact = () => {
     const [formData, setFormData] = useState({

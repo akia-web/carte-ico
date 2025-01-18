@@ -1,4 +1,4 @@
-import { RoleGameEnum } from "../enum/roleGameEnum";
+import { RoleGameEnum } from "../enum/role-game.enum";
 
 export interface Player{
     position?: number;

@@ -1,10 +1,10 @@
 "use client";
 import React, { useContext, useEffect, useState } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import { ToastContext } from '@/app/provider/toastProvider';
+import { ToastContext } from '@/app/provider/toast.provider';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/app/provider/userProvider';
+import { useUser } from '@/app/provider/user.provider';
 
 export default function LoginForm() {
   const {show} = useContext(ToastContext)

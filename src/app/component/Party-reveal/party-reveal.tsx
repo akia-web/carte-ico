@@ -1,9 +1,9 @@
-import { ActionCarteEnum } from "@/app/enum/actionCarteEnum";
-import { RoleGameEnum } from "@/app/enum/roleGameEnum";
-import { useGame } from "@/app/provider/gameProvider";
+import { ActionCarteEnum } from "@/app/enum/action-carte.enum";
+import { RoleGameEnum } from "@/app/enum/role-game.enum";
+import { useGame } from "@/app/provider/game.provider";
 import { useEffect, useState } from "react";
 import Image from 'next/image'
-import FlippedCart from "../Flipped-Card/Flipped-Card";
+import FlippedCart from "@/app/component/flipped-card/flipped-card";
 import { Button } from "primereact/button";
 
 

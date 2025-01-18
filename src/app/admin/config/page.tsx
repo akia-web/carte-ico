@@ -1,5 +1,5 @@
 "use client";
-import { ToastContext } from "@/app/provider/toastProvider";
+import { ToastContext } from "@/app/provider/toast.provider";
 import { useContext, useEffect, useState } from "react";
 
 export default function AdminConfigForm() {

@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { getToken, userMiddleware, verifyToken } from '@/middleware/authMiddleware';
-import { bigintReplacerAllForUser } from '@/app/service/userService';
+import { getToken, userMiddleware, verifyToken } from '@/middleware/auth-middleware';
+import { bigintReplacerAllForUser } from '@/app/service/user.service';
 
 const prisma = new PrismaClient();
 

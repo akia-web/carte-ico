@@ -1,14 +1,14 @@
-import { ActionCarteEnum } from "@/app/enum/actionCarteEnum";
+import { ActionCarteEnum } from "@/app/enum/action-carte.enum";
 import { Player } from "@/app/interfaces/player.dto";
-import { useGame } from "@/app/provider/gameProvider";
+import { useGame } from "@/app/provider/game.provider";
 import { useEffect, useState } from "react"
 import Image from 'next/image'
-import { RoleGameEnum } from "@/app/enum/roleGameEnum";
+import { RoleGameEnum } from "@/app/enum/role-game.enum";
 import { Button } from "primereact/button";
 
 
 
-export default function Voyage() {
+export default function Journey() {
     const [index, setIndex]= useState<number>(0)
     const [affichePageTitle, setAffichePageTitle] = useState<boolean>(true)
     const {equipe, setExpeditionActions} = useGame();

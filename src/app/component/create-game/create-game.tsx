@@ -1,4 +1,4 @@
-import { useGame } from "@/app/provider/gameProvider";
+import { useGame } from "@/app/provider/game.provider";
 import { Button } from "primereact/button";
 import { useState } from "react";
 import Image from 'next/image'
