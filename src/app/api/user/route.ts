@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { getToken, userMiddleware, verifyToken } from '@/middleware/authMiddleware';
+import { bigintReplacerAllForUser } from '@/app/service/userService';
 
 const prisma = new PrismaClient();
 
@@ -29,7 +30,7 @@ export async function GET(request: NextRequest) {
     await prisma.$connect();
     console.log("Database connected successfully");
 
-    const users = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where:{
         id: userId.id
       },
@@ -50,9 +51,10 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    return NextResponse.json(JSON.stringify(users, bigintReplacer), {
-      status: 200,
-    });
+    return NextResponse.json(
+      bigintReplacerAllForUser(user),
+      { status: 200 }
+    );
   } catch (error: any) {
     console.error("Internal Server Error:", error?.message || error);
     return NextResponse.json(

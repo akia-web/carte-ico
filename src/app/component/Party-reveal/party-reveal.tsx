@@ -1,6 +1,6 @@
 import { ActionCarteEnum } from "@/app/enum/actionCarteEnum";
 import { RoleGameEnum } from "@/app/enum/roleGameEnum";
-import { useGame } from "@/app/provider/game";
+import { useGame } from "@/app/provider/gameProvider";
 import { useEffect, useState } from "react";
 import Image from 'next/image'
 import FlippedCart from "../Flipped-Card/Flipped-Card";

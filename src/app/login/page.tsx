@@ -4,9 +4,11 @@ import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { ToastContext } from '@/app/provider/toastProvider';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/app/provider/userProvider';
 
 export default function LoginForm() {
   const {show} = useContext(ToastContext)
+  const {setIsConnected, isConnected, setConnectedUser} = useUser()
   const router: AppRouterInstance = useRouter()
   const [showPassword, setShowPassword] = useState(false);
   const [baseUrl, setBaseUrl] = useState<string>('')
@@ -21,7 +23,6 @@ export default function LoginForm() {
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login attempt:', formData);
 
       const response: Response = await fetch(`${baseUrl}/api/connection`, {
         method: 'POST',
@@ -33,8 +34,9 @@ export default function LoginForm() {
 
       if(response.ok){
         const data = await response.json();
-        console.log(data.token)
         localStorage.setItem('ico', data.token)
+        setIsConnected(true)
+        setConnectedUser(data.user)
         show('Connexion réussi', '', 'success')
         router.push('/profile')
       }else{

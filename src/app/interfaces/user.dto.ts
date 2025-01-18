@@ -4,7 +4,8 @@ export interface UserDto {
   email: string,
   role: string,
   created_at: Date,
-  user_stat: {
+  last_connection: Date | null;
+  user_stat?: {
     game_played: number,
     num_win: number,
     game_abandoned: number,

@@ -6,28 +6,34 @@ import { Mail, Key, User, Trophy, Award, Settings, Edit } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ToastContext } from '@/app/provider/toastProvider';
 import { UserDto } from '@/app/interfaces/user.dto';
+import { useUser } from '@/app/provider/userProvider';
+import { Button } from 'primereact/button';
 
 export default function ProfilePage() {
   const router = useRouter();
   const { show } = useContext(ToastContext);
+  const { user, setConnectedUser, isConnected, setIsConnected } = useUser();
   const [isEditingPassword, setIsEditingPassword] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
-  const [user, setUser] = useState<null | UserDto>(null);
   const [baseUrl, setBaseUrl] = useState<string>('');
 
 
-  useEffect(() => {
+  useEffect((): void => {
     setBaseUrl(window.location.origin);
+
     const token: string | null = localStorage.getItem('ico');
     if (!token) {
       show('Erreur', `Vous n'êtes pas connecté`, 'error');
       router.push('/login');
     } else {
-      getUser(token);
+      if (!user || !isConnected) {
+        getUser(token);
+      }
+
     }
   }, []);
 
-  useEffect(() => {
+  useEffect((): void => {
     console.log(user);
   }, [user]);
 
@@ -39,16 +45,22 @@ export default function ProfilePage() {
         'Content-Type': 'application/json',
       },
     });
-    const data: null | string = await response.json();
-
-    if (data) {
-      const findUser: UserDto = JSON.parse(data);
-      Object.entries(findUser.user_stat[0]).forEach(([cle, valeur]) => {
-        // @ts-ignore
-        findUser.user_stat[0][cle] = Number(valeur)
-      });
-      setUser(findUser);
+    const data: null | UserDto = await response.json();
+    setConnectedUser(data);
+    if (!data) {
+      router.push('/login');
     }
+  };
+
+  const disconnect = (): void => {
+    localStorage.removeItem('ico');
+    setIsConnected(false);
+    setConnectedUser(null);
+    router.push('/');
+  };
+
+  const goToPlay = (): void => {
+    router.push(`/game`);
   };
 
   const userData = {
@@ -90,36 +102,49 @@ export default function ProfilePage() {
                     {user.email}
                   </p>
                 </div>
+
+              </div>
+              <div className="mt-4 flex justify-center">
+                <Button label="Se déconnecter"
+                        onClick={() => disconnect()}
+                        className="bg-redColor p-1.5 mr-2.5"/>
+                <Button label="Jouer"
+                        onClick={() => goToPlay()}
+                        className="bg-goldenColor p-1.5"/>
               </div>
             </div>
           </div>
 
           <div className="max-w-4xl mx-auto p-6 space-y-8">
             {/* Stats */}
-            <section className="bg-white/10 rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <Trophy size={24}/>
-                Statistiques
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="text-center p-4 bg-white/5 rounded-lg">
-                  <p className="text-sm text-gray-300">Parties jouées</p>
-                  <p className="text-2xl font-bold">{user.user_stat[0].game_played}</p>
+            {user.user_stat ? (
+              <section className="bg-white/10 rounded-lg p-6">
+                <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                  <Trophy size={24}/>
+                  Statistiques
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center p-4 bg-white/5 rounded-lg">
+                    <p className="text-sm text-gray-300">Parties jouées</p>
+                    <p className="text-2xl font-bold">{user.user_stat[0].game_played}</p>
+                  </div>
+                  <div className="text-center p-4 bg-white/5 rounded-lg">
+                    <p className="text-sm text-gray-300">Parties gagnées</p>
+                    <p className="text-2xl font-bold text-green-400">{user.user_stat[0].num_win}</p>
+                  </div>
+                  <div className="text-center p-4 bg-white/5 rounded-lg">
+                    <p className="text-sm text-gray-300">Parties perdues</p>
+                    <p className="text-2xl font-bold text-red-400">{user.user_stat[0].game_loss}</p>
+                  </div>
+                  <div className="text-center p-4 bg-white/5 rounded-lg">
+                    <p className="text-sm text-gray-300">Taux de victoire</p>
+                    <p
+                      className="text-2xl font-bold text-[#C69C6D]">{user.user_stat[0].num_win === 0 || user.user_stat[0].game_loss === 0 ? 0 : (user.user_stat[0].num_win / user.user_stat[0].game_loss) * 100}</p>
+                  </div>
                 </div>
-                <div className="text-center p-4 bg-white/5 rounded-lg">
-                  <p className="text-sm text-gray-300">Parties gagnées</p>
-                  <p className="text-2xl font-bold text-green-400">{user.user_stat[0].num_win}</p>
-                </div>
-                <div className="text-center p-4 bg-white/5 rounded-lg">
-                  <p className="text-sm text-gray-300">Parties perdues</p>
-                  <p className="text-2xl font-bold text-red-400">{user.user_stat[0].game_loss}</p>
-                </div>
-                <div className="text-center p-4 bg-white/5 rounded-lg">
-                  <p className="text-sm text-gray-300">Taux de victoire</p>
-                  <p className="text-2xl font-bold text-[#C69C6D]">{user.user_stat[0].num_win === 0  || user.user_stat[0].game_loss === 0? 0 : (user.user_stat[0].num_win / user.user_stat[0].game_loss) * 100}</p>
-                </div>
-              </div>
-            </section>
+              </section>
+            ) : ('')}
+
 
             {/* Badges */}
             <section className="bg-white/10 rounded-lg p-6">
@@ -186,17 +211,17 @@ export default function ProfilePage() {
                   <div className="space-y-2">
                     <input
                       type="password"
-                      placeholder="Current Password"
+                      placeholder="Mot de passe actuel"
                       className="w-full px-4 py-2 bg-white/5 rounded-lg border border-white/20 focus:outline-none focus:border-[#C69C6D]"
                     />
                     <input
                       type="password"
-                      placeholder="New Password"
+                      placeholder="Nouveau mot de passe"
                       className="w-full px-4 py-2 bg-white/5 rounded-lg border border-white/20 focus:outline-none focus:border-[#C69C6D]"
                     />
                     <input
                       type="password"
-                      placeholder="Confirm New Password"
+                      placeholder="Confirmer le nouveau mot de passe"
                       className="w-full px-4 py-2 bg-white/5 rounded-lg border border-white/20 focus:outline-none focus:border-[#C69C6D]"
                     />
                     <button className="bg-[#C69C6D] text-white px-4 py-2 rounded-lg hover:bg-[#B58C5D] transition-colors">
