@@ -1,9 +1,9 @@
-import { RoleEnum } from "../enum/roleEnum";
+import { RoleGameEnum } from "../enum/roleGameEnum";
 
 export interface Player{
     position?: number;
     name?: string;
-    role: RoleEnum
+    role: RoleGameEnum
     bonus: string
     icon:string
 

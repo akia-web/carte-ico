@@ -63,6 +63,7 @@ model user_stat {
   game_played    BigInt?
   num_win        BigInt?
   game_abandoned BigInt?
+  game_loss      BigInt?
   user           user?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 

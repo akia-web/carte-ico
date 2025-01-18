@@ -1,5 +1,5 @@
 import { StepEnum } from "@/app/enum/stepEnum";
-import { useGame } from "@/app/provider/game";
+import { useGame } from "@/app/provider/gameProvider";
 import { useEffect, useState } from "react";
 import Image from 'next/image'
 

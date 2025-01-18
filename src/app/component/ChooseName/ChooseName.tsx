@@ -1,6 +1,6 @@
 import { StepEnum } from "@/app/enum/stepEnum";
 import { Player } from "@/app/interfaces/player.dto";
-import { useGame } from "@/app/provider/game";
+import { useGame } from "@/app/provider/gameProvider";
 import { Button } from "primereact/button";
 import { useEffect, useState } from "react";
 import FlippedCart from "../Flipped-Card/Flipped-Card";

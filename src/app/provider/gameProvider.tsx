@@ -5,7 +5,7 @@ import { GameContextType } from "../interfaces/game-context-type";
 
 import { StepEnum } from "../enum/stepEnum";
 import { Player } from "../interfaces/player.dto";
-import { RoleEnum } from "../enum/roleEnum";
+import { RoleGameEnum } from "../enum/roleGameEnum";
 import { BonusEnum } from "../enum/bonusEnum";
 import { IconsPlayersEnum } from "../enum/iconsPlayersEnum";
 
@@ -87,8 +87,8 @@ export const GameProvider = ({children}: { children: ReactNode }) => {
         changeView(StepEnum.PARTY_REVEAL)
     }
 
-    const setWinnerParty = (winner: RoleEnum.PIRATES | RoleEnum.MARINS) => {
-        winner === RoleEnum.PIRATES ? setScorePirates((prev)=>prev+=1):setScoreMarins((prev)=>prev+=1)
+    const setWinnerParty = (winner: RoleGameEnum.PIRATES | RoleGameEnum.MARINS) => {
+        winner === RoleGameEnum.PIRATES ? setScorePirates((prev)=>prev+=1):setScoreMarins((prev)=>prev+=1)
     }
 
     useEffect(()=>{
@@ -134,14 +134,14 @@ export const GameProvider = ({children}: { children: ReactNode }) => {
         let indexBonus = Math.floor(Math.random() * bonus.length)
         let indexIcon = Math.floor(Math.random() * icon.length)
         //sirene
-        resultPlayers.push(addPlayerToList(bonus[indexBonus], RoleEnum.SIRENE, icon[indexIcon]))
+        resultPlayers.push(addPlayerToList(bonus[indexBonus], RoleGameEnum.SIRENE, icon[indexIcon]))
         bonus = bonus.filter(element=> element !== bonus[indexBonus])
         icon = icon.filter(element=> element !== icon[indexIcon])
 
         for(let i = 0; i<pirate; i++){
             indexBonus = Math.floor(Math.random() * bonus.length)
             indexIcon = Math.floor(Math.random() * icon.length)
-            resultPlayers.push(addPlayerToList(bonus[indexBonus], RoleEnum.PIRATES, icon[indexIcon]))
+            resultPlayers.push(addPlayerToList(bonus[indexBonus], RoleGameEnum.PIRATES, icon[indexIcon]))
             bonus = bonus.filter(element=> element !== bonus[indexBonus])
             icon = icon.filter(element=> element !== icon[indexIcon])
         }
@@ -149,7 +149,7 @@ export const GameProvider = ({children}: { children: ReactNode }) => {
         for(let i = 0; i<marins; i++){
             indexBonus = Math.floor(Math.random() * bonus.length)
             indexIcon = Math.floor(Math.random() * icon.length)
-            resultPlayers.push(addPlayerToList(bonus[indexBonus], RoleEnum.MARINS,icon[indexIcon] ))
+            resultPlayers.push(addPlayerToList(bonus[indexBonus], RoleGameEnum.MARINS,icon[indexIcon] ))
             bonus = bonus.filter(element=> element !== bonus[indexBonus])
             icon = icon.filter(element=> element !== icon[indexIcon])
         }
@@ -204,7 +204,7 @@ export const GameProvider = ({children}: { children: ReactNode }) => {
         setStep(StepEnum.INIT)
     }
 
-    const addPlayerToList = ( bonus: string, role: RoleEnum, icon: IconsPlayersEnum ) => {
+    const addPlayerToList = ( bonus: string, role: RoleGameEnum, icon: IconsPlayersEnum ) => {
         return {
             role,
             bonus,

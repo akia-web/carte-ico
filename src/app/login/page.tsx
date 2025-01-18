@@ -1,17 +1,47 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { ToastContext } from '@/app/provider/toastProvider';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@/app/provider/userProvider';
 
 export default function LoginForm() {
+  const {show} = useContext(ToastContext)
+  const {setIsConnected, isConnected, setConnectedUser} = useUser()
+  const router: AppRouterInstance = useRouter()
   const [showPassword, setShowPassword] = useState(false);
+  const [baseUrl, setBaseUrl] = useState<string>('')
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    setBaseUrl(window.location.origin)
+  }, []);
+
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login attempt:', formData);
+
+      const response: Response = await fetch(`${baseUrl}/api/connection`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if(response.ok){
+        const data = await response.json();
+        localStorage.setItem('ico', data.token)
+        setIsConnected(true)
+        setConnectedUser(data.user)
+        show('Connexion réussi', '', 'success')
+        router.push('/profile')
+      }else{
+        show('Erreur', 'Erreur lors de la connexion', 'error')
+      }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

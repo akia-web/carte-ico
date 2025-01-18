@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { userMiddleware } from '@/middleware/authMiddleware';
+import { getToken, userMiddleware, verifyToken } from '@/middleware/authMiddleware';
+import { bigintReplacerAllForUser } from '@/app/service/userService';
 
 const prisma = new PrismaClient();
 
@@ -10,28 +11,50 @@ function bigintReplacer(key: string, value: any) {
 
 export async function GET(request: NextRequest) {
   try {
-    const authError = await userMiddleware(request,['admin']);
+
+    const authError = await userMiddleware(request,['standard']);
     if (authError) {
       return authError;
     }
 
+    const token = await getToken(request)
+    const userId = await verifyToken(token)
+
+    if(!userId){
+      return NextResponse.json(
+        { error: "error token verification" },
+        { status: 404 }
+      );
+    }
     // Check database connection
     await prisma.$connect();
     console.log("Database connected successfully");
 
-    const users = await prisma.user.findMany({
+    const user = await prisma.user.findUnique({
+      where:{
+        id: userId.id
+      },
       select: {
         id: true,
         name: true,
         email: true,
         role: true,
         created_at: true,
+        user_stat: {
+          select: {
+            game_played: true,
+            num_win: true,
+            game_abandoned: true,
+            game_loss: true,
+          },
+        },
       },
     });
 
-    return NextResponse.json(JSON.stringify(users, bigintReplacer), {
-      status: 200,
-    });
+    return NextResponse.json(
+      bigintReplacerAllForUser(user),
+      { status: 200 }
+    );
   } catch (error: any) {
     console.error("Internal Server Error:", error?.message || error);
     return NextResponse.json(

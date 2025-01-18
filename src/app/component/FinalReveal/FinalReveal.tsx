@@ -1,7 +1,7 @@
 import { ActionCarteEnum } from "@/app/enum/actionCarteEnum";
-import { RoleEnum } from "@/app/enum/roleEnum";
+import { RoleGameEnum } from "@/app/enum/roleGameEnum";
 import { Player } from "@/app/interfaces/player.dto";
-import { useGame } from "@/app/provider/game";
+import { useGame } from "@/app/provider/gameProvider";
 import { useEffect, useState } from "react";
 import Image from 'next/image'
 import { Button } from "primereact/button";
@@ -9,12 +9,12 @@ import Confetti from 'react-confetti';
 
 export default function FinalReveal() {
     const {scoreMarins, scorePirates, maxManchesGagnantes, players ,newGame} = useGame();
-    const [gagnant, setGagnant] = useState<RoleEnum>(scoreMarins === maxManchesGagnantes ? RoleEnum.MARINS : RoleEnum.PIRATES)
+    const [gagnant, setGagnant] = useState<RoleGameEnum>(scoreMarins === maxManchesGagnantes ? RoleGameEnum.MARINS : RoleGameEnum.PIRATES)
     const [selectedSirene, setSelectedSiren] = useState<Player | undefined>(undefined)
     const [pirateHaveFindSiren, setPirateHaveFindSiren] = useState<boolean | undefined>(undefined)
 
     const validate = () =>{
-        const realSiren = players.find((element)=> element.role === RoleEnum.SIRENE)
+        const realSiren = players.find((element)=> element.role === RoleGameEnum.SIRENE)
         if(realSiren){
             if(selectedSirene === realSiren){
                 setPirateHaveFindSiren(true)
@@ -26,7 +26,7 @@ export default function FinalReveal() {
 
     return(
         <div>
-            {gagnant === RoleEnum.MARINS ? (
+            {gagnant === RoleGameEnum.MARINS ? (
                    <div className="flex flex-col items-center w-[80%] m-auto justify-center mt-8">
                         <Confetti />
                         <div className="bg-blueColor rounded-lg flex items-center">
@@ -55,7 +55,7 @@ export default function FinalReveal() {
                         <p className="mt-4">Qui est la sirène ?</p>
                         
                         <div className="scrollable m-auto mt-4">
-                        {players.filter((element) => element.role === RoleEnum.PIRATES || element.role === RoleEnum.SIRENE)
+                        {players.filter((element) => element.role === RoleGameEnum.PIRATES || element.role === RoleGameEnum.SIRENE)
                         .map((element) => (
                             <div
                                 key={element.position}

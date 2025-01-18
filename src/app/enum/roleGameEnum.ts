@@ -1,4 +1,4 @@
-export enum RoleEnum{
+export enum RoleGameEnum{
     MARINS = "Marins",
     PIRATES = "Pirates",
     SIRENE = "Sirène"

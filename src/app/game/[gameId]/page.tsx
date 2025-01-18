@@ -10,7 +10,7 @@ import PartyReveal from '@/app/component/Party-reveal/party-reveal';
 import VoteEquipeChooseByCapitain from '@/app/component/VoteEquipeChooseByCapitain/VoteEquipeChooseByCapitain';
 import Voyage from '@/app/component/Voyage/Voyage';
 import { StepEnum } from '@/app/enum/stepEnum';
-import { useGame } from '@/app/provider/game';
+import { useGame } from '@/app/provider/gameProvider';
 import Image from 'next/image'
 
 

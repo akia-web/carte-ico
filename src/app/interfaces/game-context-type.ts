@@ -1,4 +1,4 @@
-import { RoleEnum } from "../enum/roleEnum";
+import { RoleGameEnum } from "../enum/roleGameEnum";
 import { StepEnum } from "../enum/stepEnum";
 import { Player as Player } from "./player.dto";
 
@@ -20,7 +20,7 @@ export interface GameContextType {
     setCapitain:(player:Player)=> void;
     setEquipe:(players:Player[])=> void;
     setExpeditionActions:(actions: string[])=> void;
-    setWinnerParty:(winner: RoleEnum.PIRATES | RoleEnum.MARINS)=> void;
+    setWinnerParty:(winner: RoleGameEnum.PIRATES | RoleGameEnum.MARINS)=> void;
     responseEquipeChooseByCapitain:(response: boolean)=>void,
     newGame:()=>void,
  

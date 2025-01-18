@@ -1,4 +1,4 @@
-import { useGame } from "@/app/provider/game";
+import { useGame } from "@/app/provider/gameProvider";
 import Image from 'next/image'
 import { Button } from "primereact/button";
 

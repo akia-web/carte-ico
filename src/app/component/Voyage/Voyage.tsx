@@ -1,9 +1,9 @@
 import { ActionCarteEnum } from "@/app/enum/actionCarteEnum";
 import { Player } from "@/app/interfaces/player.dto";
-import { useGame } from "@/app/provider/game";
+import { useGame } from "@/app/provider/gameProvider";
 import { useEffect, useState } from "react"
 import Image from 'next/image'
-import { RoleEnum } from "@/app/enum/roleEnum";
+import { RoleGameEnum } from "@/app/enum/roleGameEnum";
 import { Button } from "primereact/button";
 
 
@@ -36,7 +36,7 @@ export default function Voyage() {
     }, [allSelectedAction])
 
     useEffect(()=>{
-        if(selectedMember.role === RoleEnum.PIRATES){
+        if(selectedMember.role === RoleGameEnum.PIRATES){
             const actions:{action:ActionCarteEnum, order:number}[] = [{action:ActionCarteEnum.ILE, order:1}, {action:ActionCarteEnum.POISON, order:2}]
             actions.sort(() => Math.random() - 0.5);
             setPossibilityChoice(actions)
