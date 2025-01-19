@@ -2,7 +2,7 @@ import { StepEnum } from "@/app/enum/step.enum";
 import { Player } from "@/app/interfaces/player.dto";
 import { useGame } from "@/app/provider/game.provider";
 import { Button } from "primereact/button";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import FlippedCart from "@/app/component/flipped-card/flipped-card";
 import Image from 'next/image'
 
@@ -26,9 +26,11 @@ export default function ChooseName() {
     const srcBonusFront:string=`${dossierBonus}${selectedPlayer.bonus}.svg`
 
     useEffect(() => {
-        const updatePlayer = selectedPlayer
-        updatePlayer.name = nameChoose
-        setSelectedPlayer(updatePlayer)  
+        if(nameChoose.trim() !== ""){
+            const updatePlayer = selectedPlayer
+            updatePlayer.name = nameChoose
+            setSelectedPlayer(updatePlayer)
+        }
     }, [nameChoose]);
 
     useEffect(() => {
@@ -38,6 +40,7 @@ export default function ChooseName() {
     const validate = () => {
         setValidName(true)
         setName(selectedPlayer, nameChoose)
+        setNameChoose("")
     }
 
     const nextPlayer = () => {
@@ -48,6 +51,12 @@ export default function ChooseName() {
            setHasFlippedRole(false)
         }else{
             changeView(StepEnum.CAPITAINE)
+        }
+    }
+
+    const handleKeyPress = (event: React.KeyboardEvent) =>{
+        if (event && event.key === "Enter" && nameChoose.trim() !== '') {
+            validate()
         }
     }
     
@@ -105,6 +114,7 @@ export default function ChooseName() {
                     <input type="text" 
                             className="border p-1.5 mt-2.5 rounded-lg"
                             placeholder={`nom joueur ${selectedPlayer?.position}`}
+                           onKeyDown={handleKeyPress}
                             onChange={(e) => setNameChoose(e.target.value)} />
                 </div>
                 <Button label="Valider"

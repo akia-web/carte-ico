@@ -11,15 +11,15 @@ import { Button } from "primereact/button";
 export default function Journey() {
     const [index, setIndex]= useState<number>(0)
     const [affichePageTitle, setAffichePageTitle] = useState<boolean>(true)
-    const {equipe, setExpeditionActions} = useGame();
-    const [selectedMember, setSelectedMember] = useState<Player>(equipe[index])
+    const {team, setShippingActions} = useGame();
+    const [selectedMember, setSelectedMember] = useState<Player>(team[index])
     const [selectedAction, setSelectedAction] = useState<{action:ActionCarteEnum, order:number}|undefined>(undefined)
     const [allSelectedAction, setAllSelectedAction] = useState<(ActionCarteEnum)[] >([])
     const [possibilityChoice, setPossibilityChoice] = useState<{action:ActionCarteEnum, order:number}[]>([])
     
     useEffect(()=>{
         if(index !== 0){
-        setSelectedMember(equipe[index])
+        setSelectedMember(team[index])
         setSelectedAction(undefined)
         }
     }, [index])
@@ -27,7 +27,7 @@ export default function Journey() {
     useEffect(()=>{
         if(allSelectedAction.length>0){
             if(index === 2){
-                setExpeditionActions(allSelectedAction)
+                setShippingActions(allSelectedAction)
             }else{
                 setIndex((prev)=> prev+1) 
             }
