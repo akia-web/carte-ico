@@ -93,37 +93,3 @@ export async function GET(request: NextRequest) {
   );
 }
 
-export async function PATCH(request: NextRequest) {
-
-  const authError = await userMiddleware(request, ['admin']);
-  if (authError) {
-    return authError;
-  }
-
-  const token = await getToken(request);
-  const userId = await verifyToken(token);
-
-  if (!userId) {
-    return NextResponse.json(
-      { error: 'error token verification' },
-      { status: 404 }
-    );
-  }
-
-  const body = await request.json();
-
-  const updatePromises = body.map(async (rule: { id: number; order: number }) => {
-    return prisma.game_rules.update({
-      where: { id: rule.id },
-      data: { order: rule.order },
-    });
-  });
-
-  await Promise.all(updatePromises);
-
-  return new Response(JSON.stringify({ message: 'Order updated successfully' }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
-
-}

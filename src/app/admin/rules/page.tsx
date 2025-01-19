@@ -37,7 +37,7 @@ const GameRulesPage = () => {
       }));
 
       if(tokenUser){
-        patchFetch(`${baseUrl}/api/rules`, tokenUser, updatedRules).then(()=> show('Liste des règles', 'Ordre modifié', 'success'))
+        patchFetch(`${baseUrl}/api/admin/rules/order`, tokenUser, updatedRules).then(()=> show('Liste des règles', 'Ordre modifié', 'success'))
       }
 
       return updatedRules
@@ -79,13 +79,12 @@ const GameRulesPage = () => {
 
   const getRules = async () => {
     if (tokenUser) {
-      const response: Response = await getFetch(`${baseUrl}/api/rules`, tokenUser);
+      const response: Response = await getFetch(`${baseUrl}/api/admin/rules`, tokenUser);
       const data: null | RulesDto[] = await response.json();
       if (data) {
         setRules(data);
       }
     }
-
   };
 
   const goToAdd = () => {

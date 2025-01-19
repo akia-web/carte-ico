@@ -2,15 +2,16 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Mail, Key, User, Trophy, Award, Settings, Edit } from 'lucide-react';
+import { Mail, User, Trophy, Award, Settings, Edit } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ToastContext } from '@/app/provider/toast.provider';
 import { UserDto } from '@/app/interfaces/user.dto';
 import { useUser } from '@/app/provider/user.provider';
 import { Button } from 'primereact/button';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export default function ProfilePage() {
-  const router = useRouter();
+  const router: AppRouterInstance = useRouter();
   const { show } = useContext(ToastContext);
   const { user, setConnectedUser, isConnected, setIsConnected } = useUser();
   const [isEditingPassword, setIsEditingPassword] = useState(false);

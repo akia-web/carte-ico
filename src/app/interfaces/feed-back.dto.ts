@@ -7,5 +7,6 @@ export interface FeedBackDto {
   email: string;
   message: string,
   type: FeedbackEnum,
+  subject: string,
   status: StatusFeedbackEnum
 }
