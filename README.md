@@ -49,5 +49,9 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 6. Use Prisma Client in your application to interact with the database.
 
 ## Team
+Charline Royer : akia-web
 
+Victor Dané : Kaowarstail
+
+Thibaud Lefour : ThibGit99
 
