@@ -55,3 +55,9 @@ Victor Dané : Kaowarstail
 
 Thibaud Lefour : ThibGit99
 
+## Organisation
+Charline Royer: Développement du jeu et du front des pages admin
+
+Victor Dané: Développement des routes backend, mise en place de la base de données en ligne, configuration du Jira,modélisation de la base de données et feux d'artifices en fin de jeu
+
+Thibaud Lefour: Formulaires du site, routes backEnd, reliures entre front en back, benchmark, UML, cahier des charges  
