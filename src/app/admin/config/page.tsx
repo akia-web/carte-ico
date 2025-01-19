@@ -1,99 +1,82 @@
-"use client";
-import { ToastContext } from "@/app/provider/toast.provider";
-import { useContext, useEffect, useState } from "react";
+'use client';
+import { ToastContext } from '@/app/provider/toast.provider';
+import { useContext, useEffect, useState } from 'react';
+import { Button } from 'primereact/button';
 
 export default function AdminConfigForm() {
-  const [textInput, setTextInput] = useState("");
-  const [numberInput, setNumberInput] = useState("");
-  const [status, setStatus] = useState('');
-  const [baseUrl, setBaseUrl] = useState<string>('')
-  useEffect(()=>{
-      setBaseUrl(window.location.origin)
-  },[])
+  const [config, setConfig] = useState({
+    minPlayer: 0,
+    maxPlayer: 0,
+    minWinningRound: 0,
+    maxWinningRound: 0,
+    minTime: 0,
+    maxTime: 0,
+  });
 
-   const {show} = useContext(ToastContext);
+  const [baseUrl, setBaseUrl] = useState<string>('');
+  useEffect(() => {
+    setBaseUrl(window.location.origin);
+  }, []);
 
-  const handleSubmit = async(e: React.FormEvent) => {
+  const { show } = useContext(ToastContext);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if(textInput !== '' && numberInput !== ''){
-      const newconfig={
-        name: textInput, 
-        value: numberInput
-      }
-  
-  
-      try {
-          const response = await fetch(`${baseUrl}/api/admin-dashboard/configuration`, {  
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(newconfig),
-          });
-  
-          if (!response.ok) {
-              throw new Error('Failed to send message');
-          }
-  
-          setStatus('success');
-          setTextInput("");  // Reset form1
-          setNumberInput("")
-  
-      } catch (error) {
-          console.error('Error sending message:', error);
-          setStatus('error');
-      }
-    }
-
-   
-};
+    console.log(config)
+    show('Configuration', 'Mise à jour de la configuration réussite', 'success')
+  }
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow-md w-full max-w-md"
-      >
-        <h1 className="text-2xl font-bold mb-4">Configuration Admin</h1>
+    <div className="">
+      <h1 className='text-2xl text-blueColor'>Configuration</h1>
+      <form className='flex flex-col w-[80%] m-auto max-w-[500px]' onSubmit={handleSubmit}>
+        <div className='flex flex-col mb-8'>
+          <label>Joueur min</label>
+          <input type='number'
+                 className='border p-1.5 rounded-lg'
 
-        <div className="mb-4">
-          <label htmlFor="textInput" className="block text-gray-700 font-medium mb-2">
-            Clé
-          </label>
-          <input
-            id="textInput"
-            type="text"
-            value={textInput}
-            onChange={(e) => setTextInput(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Entrez un texte"
-            required
           />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="numberInput" className="block text-gray-700 font-medium mb-2">
-            Valeur
-          </label>
-          <input
-            id="numberInput"
-            type="number"
-            value={numberInput}
-            onChange={(e) => setNumberInput(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Entrez un nombre"
-            required
+        <div className='flex flex-col mb-8'>
+          <label>Joueur max</label>
+          <input type='number'
+                 className='border p-1.5 rounded-lg'
+
           />
         </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white font-medium py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          Envoyer
-        </button>
+        <div className='flex flex-col mb-8'>
+          <label>Minimum manches gagnantes</label>
+          <input type='number'
+                 className='border p-1.5 rounded-lg'
+
+          />
+        </div>
+        <div className='flex flex-col mb-8'>
+          <label>Max manches gagnantes</label>
+          <input type='number '
+                 className='border p-1.5 rounded-lg'
+
+          />
+        </div>
+
+        <div className='flex flex-col mb-8'>
+          <label>Temps minimum pour découvrir les pirates et sirènes </label>
+          <input type='number'
+                 className='border p-1.5 rounded-lg'
+
+          />
+        </div>
+
+        <div className='flex flex-col'>
+          <label>Temps maximum pour découvrir les pirates et sirènes </label>
+          <input type='number'
+                 className='border p-1.5 rounded-lg'
+          />
+        </div>
+        <Button label='Enregistrer' className='mt-8 bg-goldenColor p-1.5 text-white' type={'submit'}></Button>
       </form>
     </div>
   );
