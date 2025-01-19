@@ -1,85 +1,120 @@
-"use client";
+'use client';
 
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Editor } from 'primereact/editor';
+import { Button } from 'primereact/button';
+import { useRouter } from 'next/navigation';
+import { getFetch, patchFetch } from '@/app/service/fetch-api';
+import { UserDto } from '@/app/interfaces/user.dto';
+import { ToastContext } from '@/app/provider/toast.provider';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { useUser } from '@/app/provider/user.provider';
+import { RulesDto } from '@/app/interfaces/rules.dto';
+import RuleView from '@/app/component/rule-view/rule-view';
+import { DndContext, DragEndEvent } from '@dnd-kit/core';
+import { arrayMove, SortableContext } from '@dnd-kit/sortable';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
 const GameRulesPage = () => {
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Logique pour envoyer les données à la base de données
-        console.log("Formulaire soumis !");
-    };
+  const { show } = useContext(ToastContext);
+  const router: AppRouterInstance = useRouter();
+  const { user, setConnectedUser, isConnected } = useUser();
+  const [baseUrl, setBaseUrl] = useState<string>('');
+  const [tokenUser, setTokenUser] = useState<string | undefined>(undefined);
+  const [rules, setRules] = useState<RulesDto[]>([]);
+  const [orderHaveChange, setOrderHaveChange] = useState<boolean>(false);
 
-    return (
-        <form className="rules-container mx-auto max-w-4xl bg-white shadow-lg p-8 rounded-lg" onSubmit={handleSubmit}>
-            {/* Section: But du jeu */}
-            <fieldset id="game-objective" className="rules-section mb-8">
-                <legend className="text-2xl font-bold text-blue-600 mb-4">But du jeu</legend>
-                <textarea
-                    name="gameObjective"
-                    id="gameObjective"
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    rows={5}
-                    defaultValue="Quelque part en pleine mer, un groupe de Marins est chargé de transporter un trésor. Cependant, des pirates se sont peut-être infiltrés parmi eux pour le voler. Entre tempêtes, mal de mer, sirènes, trahisons et autres dangers, le trésor arrivera-t-il à bon port ?">
-                </textarea>
-                <ul className="list-disc pl-6 text-gray-700 mt-4">
-                    <li><strong className="text-blue-600">Pour les Marins et la Sirène :</strong> Identifier les pirates et former le bon équipage pour protéger le trésor.</li>
-                    <li><strong className="text-blue-600">Pour les Pirates :</strong> Gagner la confiance des Marins, les empoisonner et voler le trésor.</li>
-                </ul>
-            </fieldset>
+  const ondragend = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (active.id === over?.id) return;
 
-            {/* Section: Distribution des cartes */}
-            <fieldset id="card-distribution" className="rules-section mb-8">
-                <legend className="text-2xl font-bold text-blue-600 mb-4">VI. Distribution des cartes</legend>
-                <textarea
-                    name="cardDistribution"
-                    id="cardDistribution"
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    rows={5}
-                    defaultValue="Les cartes sont distribuées en fonction du nombre de joueurs comme suit :">
-                </textarea>
-                <table className="table-auto border-collapse w-full text-gray-700 mt-4">
-                    <thead>
-                        <tr className="bg-blue-100">
-                            <th className="border border-gray-300 px-4 py-2">Nombre de joueurs</th>
-                            <th className="border border-gray-300 px-4 py-2">Pirates</th>
-                            <th className="border border-gray-300 px-4 py-2">Marins</th>
-                            <th className="border border-gray-300 px-4 py-2">Sirène</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td className="border border-gray-300 px-4 py-2">7</td>
-                            <td className="border border-gray-300 px-4 py-2">3</td>
-                            <td className="border border-gray-300 px-4 py-2">3</td>
-                            <td className="border border-gray-300 px-4 py-2">1</td>
-                        </tr>
-                        <tr>
-                            <td className="border border-gray-300 px-4 py-2">8</td>
-                            <td className="border border-gray-300 px-4 py-2">3</td>
-                            <td className="border border-gray-300 px-4 py-2">4</td>
-                            <td className="border border-gray-300 px-4 py-2">1</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </fieldset>
+    setRules((prevRules) => {
+      const oldIndex = prevRules.findIndex((rule) => rule.id === active.id);
+      const newIndex = prevRules.findIndex((rule) => rule.id === over?.id);
+      const updatedRules = arrayMove(prevRules, oldIndex, newIndex).map((rule, index) => ({
+        ...rule,
+        order: index + 1,
+      }));
 
-            {/* Section: Déroulement d'une partie */}
-            <fieldset id="game-progress" className="rules-section mb-8">
-                <legend className="text-2xl font-bold text-blue-600 mb-4">VII. Déroulement d'une partie</legend>
-                <textarea
-                    name="gameProgress"
-                    id="gameProgress"
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    rows={5}
-                    defaultValue="Les joueurs désignent ou tirent au sort un capitaine. Le capitaine distribue à chaque joueur une carte rôle et une carte bonus, que les joueurs consultent discrètement avant de les poser face cachée. Ensuite, tous les joueurs ferment les yeux, et le capitaine demande aux pirates et à la sirène d'ouvrir les yeux pour se reconnaître. Tous referment ensuite les yeux avant de les rouvrir pour démarrer la partie.">
-                </textarea>
-            </fieldset>
+      if(tokenUser){
+        patchFetch(`${baseUrl}/api/rules`, tokenUser, updatedRules).then(()=> show('Liste des règles', 'Ordre modifié', 'success'))
+      }
 
-            <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-md shadow-md hover:bg-blue-700 focus:outline-none">
-                Valider
-            </button>
-        </form>
-    );
+      return updatedRules
+    });
+  };
+
+  useEffect(() => {
+    console.log(rules);
+  }, [rules]);
+
+  useEffect(() => {
+    if ((!user || !isConnected) && tokenUser) {
+      console.log('pas de user');
+      getUser(tokenUser);
+    }
+  }, [tokenUser]);
+
+  useEffect(() => {
+    setBaseUrl(window.location.origin);
+    const token: string | null = localStorage.getItem('ico');
+    if (!token) {
+      show('Erreur', `Vous n'êtes pas connecté`, 'error');
+      router.push('/login');
+    } else {
+      setTokenUser(token);
+      getRules();
+    }
+  }, []);
+
+  const getUser = async (token: string): Promise<void> => {
+    const response: Response = await getFetch(`${baseUrl}/api/user`, token);
+    const data: null | UserDto = await response.json();
+    setConnectedUser(data);
+    if (!data) {
+      router.push('/login');
+    }
+    await getRules();
+  };
+
+  const getRules = async () => {
+    if (tokenUser) {
+      const response: Response = await getFetch(`${baseUrl}/api/rules`, tokenUser);
+      const data: null | RulesDto[] = await response.json();
+      if (data) {
+        setRules(data);
+      }
+    }
+
+  };
+
+  const goToAdd = () => {
+    router.push('/admin/rules/add');
+  };
+
+
+  return (
+
+    <div className="w-[80%] m-auto">
+      <div className="flex flex-row-reverse">
+        <Button label="Ajouter"
+                icon="pi pi-plus"
+                className="mr-4 bg-goldenColor text-white p-1.5"
+                onClick={() => goToAdd()}
+        />
+      </div>
+      <div>
+        <DndContext onDragEnd={ondragend} modifiers={[restrictToVerticalAxis]}>
+          <SortableContext items={rules}>
+            {rules.map((rule) => (
+              <RuleView rule={rule}
+                        key={rule.id}/>
+            ))}
+          </SortableContext>
+        </DndContext>
+      </div>
+    </div>
+  );
 };
 
 export default GameRulesPage;

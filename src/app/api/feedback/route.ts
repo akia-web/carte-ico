@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken, userMiddleware, verifyToken } from '@/middleware/auth-middleware';
 import { bigintReplacerAll } from '@/app/service/bigInt.service';
-import { FeedbackDto } from '@/app/interfaces/feedback.dto';
+import { FeedBackDto } from '@/app/interfaces/feed-back.dto';
 
 const prisma = new PrismaClient();
 
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     });
 
     // remove bigInt for id
-    const newFeedBack: FeedbackDto[] = [];
+    const newFeedBack: FeedBackDto[] = [];
     if (getFeedBack) {
       getFeedBack.forEach((element) => {
         newFeedBack.push(bigintReplacerAll(element));

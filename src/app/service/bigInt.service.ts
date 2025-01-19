@@ -1,4 +1,4 @@
-import { FeedbackDto } from '@/app/interfaces/feedback.dto';
+import { FeedBackDto } from '@/app/interfaces/feed-back.dto';
 
 export function bigintReplacerAllForUser(objet: any) {
   const newUser = {};
@@ -34,4 +34,8 @@ export function bigintReplacerAll(objet: any) : any {
     newObject[key] = value;
   });
   return newObject;
+}
+
+export function bigIntReplacerForOne(value: bigint){
+  return value.toString()
 }

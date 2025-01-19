@@ -1,7 +1,7 @@
 import { FeedbackEnum } from '@/app/enum/feedback.enum';
 import { StatusFeedbackEnum } from '@/app/enum/status-feedback.enum';
 
-export interface FeedbackDto {
+export interface FeedBackDto {
   id: number,
   created_at: Date;
   email: string;
