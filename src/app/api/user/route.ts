@@ -12,7 +12,7 @@ function bigintReplacer(key: string, value: any) {
 export async function GET(request: NextRequest) {
   try {
 
-    const authError = await userMiddleware(request,['standard']);
+    const authError = await userMiddleware(request,['standard','admin']);
     if (authError) {
       return authError;
     }

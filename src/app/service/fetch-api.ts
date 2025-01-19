@@ -32,3 +32,15 @@ export const deleteFetch = async (url: string, token: string, data: any) => {
   });
 
 };
+
+export const postFetch = async (url: string, token: string, data: any) => {
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  });
+
+};

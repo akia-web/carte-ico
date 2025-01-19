@@ -1,13 +1,13 @@
 "use client";
 import React, {Context, createContext, ReactNode, useContext, useState} from "react";
 import {Sidebar} from "primereact/sidebar";
-import { SideBarContextType } from "../interfaces/sideBar-context-type";
+import { SidebarContextType } from "../interfaces/sidebar-context-type";
 import Image from 'next/image'
 import Link from "next/link";
 
 
 
-export const SideBarContext: Context<SideBarContextType> = createContext<SideBarContextType>({
+export const SideBarContext: Context<SidebarContextType> = createContext<SidebarContextType>({
     toggleSideBar: (): void => {
     },
 });
@@ -54,7 +54,7 @@ export const SideBarProvider = ({children}: { children: ReactNode }) => {
 
 
 export const useSideBar = () => {
-    const context: SideBarContextType = useContext(SideBarContext);
+    const context: SidebarContextType = useContext(SideBarContext);
     if (!context) {
         throw new Error("useSideBar doit être utilisé à l'intérieur de SideBarProvider");
     }

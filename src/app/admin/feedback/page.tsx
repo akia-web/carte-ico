@@ -6,7 +6,7 @@ import { UserDto } from '@/app/interfaces/user.dto';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { deleteFetch, getFetch, patchFetch } from '@/app/service/fetch-api';
-import { FeedbackDto } from '@/app/interfaces/feedback.dto';
+import { FeedBackDto } from '@/app/interfaces/feed-back.dto';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { FeedbackEnum } from '@/app/enum/feedback.enum';
@@ -21,11 +21,11 @@ import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 export default function Suggestion() {
   const router: AppRouterInstance = useRouter();
   const { user, setConnectedUser, isConnected } = useUser();
-  const [feedbacks, setFeedbacks] = useState<FeedbackDto[]>([]);
+  const [feedbacks, setFeedbacks] = useState<FeedBackDto[]>([]);
   const [baseUrl, setBaseUrl] = useState<string>('');
   const [tokenUser, setTokenUser] = useState<string | undefined>(undefined);
   const [visible, setVisible] = useState<boolean>(false);
-  const [activeMessage, setActiveMessage] = useState<FeedbackDto | null>(null);
+  const [activeMessage, setActiveMessage] = useState<FeedBackDto | null>(null);
   const [formattedDate, setFormattedDate] = useState('')
   const [safeHtml, setSafeHtml] = useState('')
   const [messageStatus, setMessageStatus] = useState('')
@@ -66,19 +66,19 @@ export default function Suggestion() {
 
   const getFeedBack = async (token: string) => {
     const response: Response = await getFetch(`${baseUrl}/api/feedback`, token);
-    const data: null | FeedbackDto[] = await response.json();
+    const data: null | FeedBackDto[] = await response.json();
     if (data) {
       setFeedbacks(data);
     }
   };
 
-  const typeTemplate = (feedback: FeedbackDto) => {
+  const typeTemplate = (feedback: FeedBackDto) => {
     return <div>
       <Tag value={feedback.type} className={feedback.type === FeedbackEnum.BUG ? `bg-redColor` : `bg-secondaryActionColor`}></Tag>
     </div>;
   };
 
-  const dateTemplateDate = (feedback: FeedbackDto) => {
+  const dateTemplateDate = (feedback: FeedBackDto) => {
     const date = new Date(feedback.created_at);
     const formattedDate: string = date.toLocaleDateString('fr-FR');
     return <div>
@@ -86,13 +86,13 @@ export default function Suggestion() {
     </div>;
   };
 
-  const openPopup = (feedback: FeedbackDto) => {
+  const openPopup = (feedback: FeedBackDto) => {
     setVisible(true);
     setActiveMessage(feedback);
 
   };
 
-  const actionsTemplateDate = (feedback: FeedbackDto) => {
+  const actionsTemplateDate = (feedback: FeedBackDto) => {
     if (activeMessage) {
       setMessageStatus(traductionStatus(activeMessage.status))
       const date = new Date(activeMessage.created_at);
@@ -105,7 +105,7 @@ export default function Suggestion() {
     </div>;
   };
 
-  const deleteFeedBack = async (feedback: FeedbackDto): Promise<void> => {
+  const deleteFeedBack = async (feedback: FeedBackDto): Promise<void> => {
     if (tokenUser) {
       await deleteFetch(`${baseUrl}/api/feedback`, tokenUser, feedback)
         .then((): void => {
@@ -118,7 +118,7 @@ export default function Suggestion() {
     }
   };
 
-  const handleChangeStatus = async (e: DropdownChangeEvent, actualFeedBack: FeedbackDto): Promise<void> => {
+  const handleChangeStatus = async (e: DropdownChangeEvent, actualFeedBack: FeedBackDto): Promise<void> => {
     console.log(e)
     const body = {id:actualFeedBack.id, status: e.value.code }
     if (tokenUser) {
@@ -134,7 +134,7 @@ export default function Suggestion() {
     }
   };
 
-  const statusTemplateDate = (feedback: FeedbackDto) => {
+  const statusTemplateDate = (feedback: FeedBackDto) => {
     const selectFeedBack = status.find((element)=>element.code === feedback.status)
     return <div>
       <Dropdown
