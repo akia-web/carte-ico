@@ -15,7 +15,7 @@ import Image from 'next/image'
 
 
 export default function GameComponent() {
-  const {step, maxManchesGagnantes, scoreMarins, scorePirates, tour} = useGame();
+  const {step, maxWinningRound, scoreMarins, scorePirates, tour} = useGame();
 
   const renderComponentByStep = () => {
     switch (step) {
@@ -44,7 +44,7 @@ export default function GameComponent() {
 
   return(
     <div className={`${step  === StepEnum.INIT ? 'bg-transparent':'bg-white full-height'}`}>
-      {maxManchesGagnantes > 0? (
+      {maxWinningRound > 0? (
         <div className='md:w-[500px] m-auto'>
           <div className='pt-8 ml-2.5 flex'>
             <Image src="/icons/helm.svg" 
@@ -63,13 +63,13 @@ export default function GameComponent() {
                     width={25}
                     className="mr-1.5" 
                     alt="image pirate"/>
-            <p className="mr-2.5" >{scorePirates}/{maxManchesGagnantes}</p>
+            <p className="mr-2.5" >{scorePirates}/{maxWinningRound}</p>
             <Image src="/icons/marin.svg" 
                     height={25} 
                     width={25}
                     className="mr-1.5" 
                     alt="image pirate"/>
-            <p>{scoreMarins}/{maxManchesGagnantes}</p>
+            <p>{scoreMarins}/{maxWinningRound}</p>
             </div>
           </div>
         </div>

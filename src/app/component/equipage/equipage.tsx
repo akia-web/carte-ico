@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Image from 'next/image'
 
 export default function Equipage() {
-     const {capitain, players, setEquipe} = useGame();
+     const {captain, players, setTeam} = useGame();
      const [equipageSelected, setEquipageSelected] = useState<Player[]>([])
 
      const setMemberEquipe = (player: Player) => {
@@ -21,7 +21,7 @@ export default function Equipage() {
 
      const validate = () => {
         if(equipageSelected.length === 3){
-            setEquipe(equipageSelected)
+            setTeam(equipageSelected)
         }
      }
     return(
@@ -29,13 +29,13 @@ export default function Equipage() {
         <div className="flex flex-col items-center w-[80%] m-auto justify-center mt-8">
             <div className="bg-blueColor rounded-lg flex items-center">
                 
-                <Image src={`/icons/${capitain?.icon}.svg`} 
+                <Image src={`/icons/${captain?.icon}.svg`}
                     height={30} 
                     width={30}
                     className="mr-2.5 ml-2.5" 
                     alt="Chapeau de pirate"/>
 
-                <h1 className="text-base text-center text-white p-2.5"> {capitain?.name} choisit son équipage</h1>
+                <h1 className="text-base text-center text-white p-2.5"> {captain?.name} choisit son équipage</h1>
             </div>
             <div className="scrollable m-auto mt-4">
              {players.map((element) => (

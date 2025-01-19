@@ -1,15 +1,15 @@
 import { ActionCarteEnum } from "@/app/enum/action-carte.enum";
 import { RoleGameEnum } from "@/app/enum/role-game.enum";
 import { useGame } from "@/app/provider/game.provider";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from 'next/image'
 import FlippedCart from "@/app/component/flipped-card/flipped-card";
 import { Button } from "primereact/button";
 
 
 export default function PartyReveal() {
-    const {expeditionActions, setWinnerParty, scoreMarins, scorePirates, maxManchesGagnantes} = useGame();
-    const [gagnant, setGagnant] = useState<RoleGameEnum.PIRATES| RoleGameEnum.MARINS>(expeditionActions.includes(ActionCarteEnum.POISON)?RoleGameEnum.PIRATES:RoleGameEnum.MARINS)
+    const {shippingActions, setWinnerParty, scoreMarins, scorePirates, maxWinningRound} = useGame();
+    const [gagnant, setGagnant] = useState<RoleGameEnum.PIRATES| RoleGameEnum.MARINS>(shippingActions.includes(ActionCarteEnum.POISON)?RoleGameEnum.PIRATES:RoleGameEnum.MARINS)
     const [carte1Reveal, setCarte1Reveal] = useState<boolean>(false)
     const [carte2Reveal, setCarte2Reveal] = useState<boolean>(false)
     const [carte3Reveal, setCarte3Reveal] = useState<boolean>(false)
@@ -61,7 +61,7 @@ export default function PartyReveal() {
                 </div>
  
                 <div className="flex mt-8">
-                    {expeditionActions.map((element, index) => (
+                    {shippingActions.map((element, index) => (
                         <FlippedCart
                         key={index}
                         width="w-[100px]"

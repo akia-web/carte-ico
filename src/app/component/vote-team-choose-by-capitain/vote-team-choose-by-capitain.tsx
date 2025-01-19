@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Button } from "primereact/button";
 
 export default function VoteTeamChooseByCapitain() {
-    const {capitain, equipe, responseEquipeChooseByCapitain} = useGame();
+    const {captain, team, responseTeamChooseByCapitain} = useGame();
 
     return(
 
@@ -12,7 +12,7 @@ export default function VoteTeamChooseByCapitain() {
                 <h1 className="text-xl text-center text-white"> Les Moussaillons choisis </h1>
             </div>
             <div>
-            {equipe.map((element) => (
+            {team.map((element) => (
                 <div key={element.position}
                 className="flex mb-2.5">
                 <Image src={`/icons/${element.icon}.svg`} 
@@ -31,10 +31,10 @@ export default function VoteTeamChooseByCapitain() {
               
                 <Button label="Non"
                     className="mr-2.5 bg-redColor p-2.5 text-white"
-                    onClick={()=>responseEquipeChooseByCapitain(false)}/>
+                    onClick={()=>responseTeamChooseByCapitain(false)}/>
                 <Button label="Oui"
                     className="bg-goldenColor p-2.5 text-white"
-                    onClick={()=> responseEquipeChooseByCapitain(true)}/>
+                    onClick={()=> responseTeamChooseByCapitain(true)}/>
             </div>
         </div>
     )

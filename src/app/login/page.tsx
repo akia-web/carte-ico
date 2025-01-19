@@ -8,7 +8,7 @@ import { useUser } from '@/app/provider/user.provider';
 
 export default function LoginForm() {
   const {show} = useContext(ToastContext)
-  const {setIsConnected, isConnected, setConnectedUser} = useUser()
+  const {setIsConnected, setConnectedUser} = useUser()
   const router: AppRouterInstance = useRouter()
   const [showPassword, setShowPassword] = useState(false);
   const [baseUrl, setBaseUrl] = useState<string>('')
@@ -120,7 +120,7 @@ export default function LoginForm() {
         {/* Register Link */}
         <div className="text-center text-white mt-6">
           <span>Pas encore de compte? </span>
-          <a href="/subscribe#" className="text-[#C69C6D] hover:underline">
+          <a href="/subscribe" className="text-[#C69C6D] hover:underline">
             S'inscrire
           </a>
         </div>

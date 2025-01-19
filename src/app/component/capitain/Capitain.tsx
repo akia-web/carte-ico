@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { Button } from "primereact/button";
 
 export default function Capitain() {
-      const {tour, players, setCapitain, capitain, changeView} = useGame();
+      const {tour, players, setCaptain, captain, changeView} = useGame();
       const [affichePageTitle, setAffichePageTitle] = useState<boolean>(true)
       const [selectCapitain, setSelectCapitain] = useState<Player|undefined>(undefined)
      
@@ -16,7 +16,7 @@ export default function Capitain() {
 
       const validate = () =>{
         if(selectCapitain){
-            setCapitain(selectCapitain)
+            setCaptain(selectCapitain)
         }
       }
 
@@ -78,12 +78,12 @@ export default function Capitain() {
             <div className="flex flex-col items-center w-[80%] m-auto justify-center">
             <div className="bg-blueColor rounded-lg flex items-center p-2.5 mb-8">
               <h1 className="text-sm text-center text-white"> Nouveau capitaine : </h1>
-              <Image src={`/icons/${capitain?.icon}.svg`} 
+              <Image src={`/icons/${captain?.icon}.svg`}
                         height={30} 
                         width={30}
                         className="mr-2.5 ml-2.5" 
                         alt="icone du joueur"/>
-              <h1 className="text-sm text-center text-white">{capitain?.name}</h1>
+              <h1 className="text-sm text-center text-white">{captain?.name}</h1>
             </div>
             <span onClick={()=> changeView(StepEnum.EQUIPAGE)}
                 className="italic text-sm">Taper pour continuer</span>

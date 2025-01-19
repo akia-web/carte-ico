@@ -1,20 +1,19 @@
-import { ActionCarteEnum } from "@/app/enum/action-carte.enum";
 import { RoleGameEnum } from "@/app/enum/role-game.enum";
 import { Player } from "@/app/interfaces/player.dto";
 import { useGame } from "@/app/provider/game.provider";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from 'next/image'
 import { Button } from "primereact/button";
 import Confetti from 'react-confetti';
 
 export default function FinalReveal() {
-    const {scoreMarins, scorePirates, maxManchesGagnantes, players ,newGame} = useGame();
-    const [gagnant, setGagnant] = useState<RoleGameEnum>(scoreMarins === maxManchesGagnantes ? RoleGameEnum.MARINS : RoleGameEnum.PIRATES)
+    const {scoreMarins, maxWinningRound, players ,newGame} = useGame();
+    const [gagnant] = useState<RoleGameEnum>(scoreMarins === maxWinningRound ? RoleGameEnum.MARINS : RoleGameEnum.PIRATES)
     const [selectedSirene, setSelectedSiren] = useState<Player | undefined>(undefined)
     const [pirateHaveFindSiren, setPirateHaveFindSiren] = useState<boolean | undefined>(undefined)
 
-    const validate = () =>{
-        const realSiren = players.find((element)=> element.role === RoleGameEnum.SIRENE)
+    const validate = ():void =>{
+        const realSiren:Player | undefined = players.find((element)=> element.role === RoleGameEnum.SIRENE)
         if(realSiren){
             if(selectedSirene === realSiren){
                 setPirateHaveFindSiren(true)

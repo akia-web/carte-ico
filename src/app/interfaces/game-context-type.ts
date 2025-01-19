@@ -4,24 +4,24 @@ import { Player as Player } from "./player.dto";
 
 export interface GameContextType {
     step:string;
-    maxManchesGagnantes:number;
+    maxWinningRound:number;
     tour: number;
     players: Player[];
-    capitain?: Player,
+    captain?: Player,
     timeToSee: number,
-    equipe:Player[],
-    expeditionActions: string[],
+    team:Player[],
+    shippingActions: string[],
     scorePirates:number,
     scoreMarins: number,
-    capitainCanMakeNewEquipe: boolean
+    captainCanMakeNewEquipe: boolean
     setName: (player: Player, name:string) => void;
     initGame: (numberPlayer:number, numberManche: number, time:number) => void;
     changeView: (step:StepEnum) => void;
-    setCapitain:(player:Player)=> void;
-    setEquipe:(players:Player[])=> void;
-    setExpeditionActions:(actions: string[])=> void;
+    setCaptain:(player:Player)=> void;
+    setTeam:(players:Player[])=> void;
+    setShippingActions:(actions: string[])=> void;
     setWinnerParty:(winner: RoleGameEnum.PIRATES | RoleGameEnum.MARINS)=> void;
-    responseEquipeChooseByCapitain:(response: boolean)=>void,
+    responseTeamChooseByCapitain:(response: boolean)=>void,
     newGame:()=>void,
  
 }
