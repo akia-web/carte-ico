@@ -47,16 +47,13 @@ export default function Suggestion() {
 
     if(tokenUser){
       const body = {title, message}
-      await postFetch(`${baseUrl}/api/rules`, tokenUser, body)
+      await postFetch(`${baseUrl}/api/admin/rules`, tokenUser, body)
         .then(() => {
           show('Règle', 'Règle rajouté à la liste', 'success')
-          router.push('/admin/rules')
+          window.location.href='/admin/rules'
         } )
         .catch(()=> show('Erreur',  `Erreur lors de l'ajout des règles`, 'error'))
-      console.log(body);
     }
-
-
   };
 
 

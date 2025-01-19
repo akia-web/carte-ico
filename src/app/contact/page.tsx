@@ -24,7 +24,7 @@ const FormContact = () => {
 
   useEffect(() => {
     setBaseUrl(window.location.origin);
-  });
+  },[]);
 
   const setTypeSuggestion = (value: { name: string }) => {
     setFormData((prev) => ({

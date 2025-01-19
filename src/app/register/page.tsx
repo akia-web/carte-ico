@@ -1,15 +1,16 @@
-"use client";
+'use client';
 import React, { useContext, useEffect, useState } from 'react';
 import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
 import { ToastContext } from '@/app/provider/toast.provider';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
+
 export default function SubscribeForm() {
-  const {show} = useContext(ToastContext)
-  const router: AppRouterInstance = useRouter()
+  const { show } = useContext(ToastContext);
+  const router: AppRouterInstance = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [baseUrl, setBaseUrl] = useState<string>('')
+  const [baseUrl, setBaseUrl] = useState<string>('');
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -18,13 +19,19 @@ export default function SubscribeForm() {
   });
 
   useEffect(() => {
-    setBaseUrl(window.location.origin)
+    setBaseUrl(window.location.origin);
+    const token: string | null = localStorage.getItem('ico');
+    if (token) {
+      show('Erreur', `Vous n'êtes pas connecté`, 'error');
+      router.push('/profile');
+    }
   }, []);
 
-  const handleSubmit = async(e: React.FormEvent) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      show('Erreur','Les mots de passes ne correspondent pas', 'error')
+      show('Erreur', 'Les mots de passes ne correspondent pas', 'error');
       return;
     }
 
@@ -34,12 +41,14 @@ export default function SubscribeForm() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
-    }).then((res: Response)=>{{
-      if(res.status === 201){
-        show('Inscription réussite', 'Vous pouvez maintenant vous connecter', 'success')
-        router.push('/login')
+    }).then((res: Response) => {
+      {
+        if (res.status === 201) {
+          show('Inscription réussite', 'Vous pouvez maintenant vous connecter', 'success');
+          router.push('/login');
+        }
       }
-    }})
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

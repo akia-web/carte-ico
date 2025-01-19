@@ -5,6 +5,7 @@ import { ToastContext } from '@/app/provider/toast.provider';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/app/provider/user.provider';
+import Link from 'next/link';
 
 export default function LoginForm() {
   const {show} = useContext(ToastContext)
@@ -120,9 +121,9 @@ export default function LoginForm() {
         {/* Register Link */}
         <div className="text-center text-white mt-6">
           <span>Pas encore de compte? </span>
-          <a href="/subscribe" className="text-[#C69C6D] hover:underline">
+          <Link href="/register" className="text-[#C69C6D] hover:underline">
             S'inscrire
-          </a>
+          </Link>
         </div>
       </form>
     </div>

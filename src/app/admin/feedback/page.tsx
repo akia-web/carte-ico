@@ -26,9 +26,9 @@ export default function Suggestion() {
   const [tokenUser, setTokenUser] = useState<string | undefined>(undefined);
   const [visible, setVisible] = useState<boolean>(false);
   const [activeMessage, setActiveMessage] = useState<FeedBackDto | null>(null);
-  const [formattedDate, setFormattedDate] = useState('')
-  const [safeHtml, setSafeHtml] = useState('')
-  const [messageStatus, setMessageStatus] = useState('')
+  const [formattedDate, setFormattedDate] = useState('');
+  const [safeHtml, setSafeHtml] = useState('');
+  const [messageStatus, setMessageStatus] = useState('');
   const { show } = useContext(ToastContext);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function Suggestion() {
   };
 
   const getFeedBack = async (token: string) => {
-    const response: Response = await getFetch(`${baseUrl}/api/feedback`, token);
+    const response: Response = await getFetch(`${baseUrl}/api/admin/feedback`, token);
     const data: null | FeedBackDto[] = await response.json();
     if (data) {
       setFeedbacks(data);
@@ -92,13 +92,16 @@ export default function Suggestion() {
 
   };
 
-  const actionsTemplateDate = (feedback: FeedBackDto) => {
+  useEffect(() => {
     if (activeMessage) {
-      setMessageStatus(traductionStatus(activeMessage.status))
-      const date = new Date(activeMessage.created_at);
-      setFormattedDate(date.toLocaleDateString('fr-FR'))
-      setSafeHtml(DOMPurify.sanitize(activeMessage.message))
+      setMessageStatus(traductionStatus(activeMessage.status));
+      const date: Date = new Date(activeMessage.created_at);
+      setFormattedDate(date.toLocaleDateString('fr-FR'));
+      setSafeHtml(DOMPurify.sanitize(activeMessage.message));
     }
+  }, [activeMessage]);
+
+  const actionsTemplateDate = (feedback: FeedBackDto) => {
     return <div>
       <Button icon="pi pi-eye" onClick={() => openPopup(feedback)}></Button>
       <Button icon="pi pi-times hover:text-redColor" onClick={() => deleteFeedBack(feedback)}></Button>
@@ -107,7 +110,7 @@ export default function Suggestion() {
 
   const deleteFeedBack = async (feedback: FeedBackDto): Promise<void> => {
     if (tokenUser) {
-      await deleteFetch(`${baseUrl}/api/feedback`, tokenUser, feedback)
+      await deleteFetch(`${baseUrl}/api/admin/feedback`, tokenUser, feedback)
         .then((): void => {
           show('Suppression de message', 'Le message a bien été supprimé', 'success');
         })
@@ -119,14 +122,14 @@ export default function Suggestion() {
   };
 
   const handleChangeStatus = async (e: DropdownChangeEvent, actualFeedBack: FeedBackDto): Promise<void> => {
-    console.log(e)
-    const body = {id:actualFeedBack.id, status: e.value.code }
+    console.log(e);
+    const body = { id: actualFeedBack.id, status: e.value.code };
     if (tokenUser) {
-      await patchFetch(`${baseUrl}/api/feedback/status`, tokenUser, body).then(() => show('Mise à jour', `Statut du feedBack à bien été mit à jour `, 'success'))
+      await patchFetch(`${baseUrl}/api/admin/feedback/status`, tokenUser, body).then(() => show('Mise à jour', `Statut du feedBack à bien été mit à jour `, 'success'));
       setFeedbacks((prev) => {
         return prev.map((feedback) => {
           if (feedback.id === actualFeedBack.id) {
-            return { ...feedback, status: e.value.code  };
+            return { ...feedback, status: e.value.code };
           }
           return feedback;
         });
@@ -135,11 +138,11 @@ export default function Suggestion() {
   };
 
   const statusTemplateDate = (feedback: FeedBackDto) => {
-    const selectFeedBack = status.find((element)=>element.code === feedback.status)
+    const selectFeedBack = status.find((element) => element.code === feedback.status);
     return <div>
       <Dropdown
         value={selectFeedBack} // Valeur actuelle du feedback
-        onChange={(event)=>handleChangeStatus(event, feedback)}
+        onChange={(event) => handleChangeStatus(event, feedback)}
         options={status}
         optionLabel="name"
         placeholder="Sélectionner un statut"
@@ -164,12 +167,10 @@ export default function Suggestion() {
             <Column header="Actions" body={actionsTemplateDate}></Column>
           </DataTable>
         </div>
-
-
       ) : ('')
       }
 
-      <Dialog header='Message' visible={visible} onHide={() => {
+      <Dialog header="Message" visible={visible} onHide={() => {
         if (!visible) return;
         setVisible(false);
         setActiveMessage(null);
@@ -185,6 +186,10 @@ export default function Suggestion() {
             </div>
 
             <p>Expéditeur : {activeMessage.email}</p>
+            <div className="flex">
+              <p className="bold mr-2">title:</p>
+              <p className="font-normal">{activeMessage.subject}</p>
+            </div>
             <div className="flex">
               <p className="bold mr-2">Message:</p>
               <p dangerouslySetInnerHTML={{ __html: safeHtml }} className="font-normal"></p>
